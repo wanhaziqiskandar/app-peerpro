@@ -19,8 +19,20 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'lastname',
+        'gender',
+        'age',
         'email',
+        'email_verified_at',
+        'phone_number',
         'password',
+        'role',
+        'experience',
+        'expertise',
+        'account_number',
+        'qualifications',
+        'price_rate',
+        'remember_token'
     ];
 
     /**
@@ -44,5 +56,17 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    // tutor receives 
+    public function receivedTuitionRequests()
+    {
+        return $this->hasMany(TuitionRequest::class, 'tutor_id');
+    }
+
+    // tutee sends
+    public function sentTuitionRequests()
+    {
+        return $this->hasMany(TuitionRequest::class, 'tutee_id');
     }
 }

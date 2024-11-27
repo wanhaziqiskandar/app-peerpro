@@ -29,16 +29,39 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        // dd($request);
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'lastname' => ['required', 'string', 'max:255'],
+            'gender' => ['required', 'string', 'max:255'],
+            'age' => ['required', 'integer'],  // Store as integer
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
+            'phone_number' => ['required', 'string', 'max:255'],
+            'role' => ['required', 'string', 'max:255'],
+            'experience' => ['nullable', 'string', 'max:255'],  // Allow null for experience
+            'expertise' => ['nullable', 'string', 'max:255'],   // Allow null for expertise
+            'account_number' => ['nullable', 'string', 'max:255'], // Allow null for account_number
+            'qualifications' => ['nullable', 'string', 'max:255'], // Allow null for qualifications
+            'price_rate' => ['required_if:role,tutor', 'nullable', 'numeric', 'min:0', 'max:1000.00'], // Price rate as numeric with min/max
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
+        // dd($request);
 
         $user = User::create([
             'name' => $request->name,
+            'lastname' => $request->lastname,
+            'gender' => $request->gender,
+            'age' => $request->age, // Store as integer
             'email' => $request->email,
+            'phone_number' => $request->phone_number,
+            'role' => $request->role,
+            'experience' => $request->experience,
+            'expertise' => $request->expertise,
+            'account_number' => $request->account_number,
+            'qualifications' => $request->qualifications,
+            'price_rate' => $request->price_rate, // Store as decimal
             'password' => Hash::make($request->password),
+            'email_verified_at' => now(), // Optional if email verification isn't used
         ]);
 
         event(new Registered($user));
