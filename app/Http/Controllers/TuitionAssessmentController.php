@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\TuitionAssessment;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class TuitionAssessmentController extends Controller
@@ -12,7 +13,11 @@ class TuitionAssessmentController extends Controller
      */
     public function index()
     {
-        //
+        $assessments = User::where('role', 'tutor')->get();
+        // dd($tutors); to view data without page
+        return view('tutor.assessments.index', [
+            'assessments' => $assessments,
+        ]);
     }
 
     /**
@@ -62,4 +67,5 @@ class TuitionAssessmentController extends Controller
     {
         //
     }
+    
 }

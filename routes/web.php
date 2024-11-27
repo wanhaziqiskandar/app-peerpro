@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TuitionAssessmentController;
 use App\Http\Controllers\TuitionPaymentsController;
 use App\Http\Controllers\TuitionRequestController;
 use App\Http\Controllers\TuteeController;
@@ -46,5 +47,7 @@ Route::view('tutee/{id}/edit', 'tutee.tutors.edit');
 Route::view('tutor/{id}/edit', 'tutor.tutees.edit');
 Route::get('/tutees',[TuteeController::class, 'index'])->name('tutees.index');
 
+// assessment route
+Route::get('/assessments', [TuitionAssessmentController::class, 'index'])->name('assessments.index');
 // Route::view('tutee/{id}/edit', 'tutee.tutors.edit');
 require __DIR__.'/auth.php';

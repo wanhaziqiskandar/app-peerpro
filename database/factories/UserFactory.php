@@ -46,7 +46,7 @@ class UserFactory extends Factory
                 'experience' => $this->faker->numberBetween(1, 20),
                 'expertise' => $this->faker->jobTitle(),
                 'account_number' => $this->faker->bankAccountNumber(),
-                'qualifications' => $this->faker->sentence(5),
+                'qualifications' => 'Bachelor Degree in '. $this->faker->jobTitle(),
                 'price_rate' => $this->faker->randomFloat(2, 15, 150), // realistic pricing rates
             ]);
         } else {

@@ -102,21 +102,47 @@
                     </div>
                     <div class="sm:col-span-9">
                         <div class="flex items-center space-x-4">
-                            <select
-                                class="block w-full rounded-lg border-gray-200 px-3 py-2 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-200">
-                                <option value="" selected disabled>Select Timeslot</option>
-                                <option value="8-9">8:00 AM - 9:00 AM</option>
-                                <option value="9-10">9:00 AM - 10:00 AM</option>
-                                <option value="10-11">10:00 AM - 11:00 AM</option>
-                                <option value="2-3">2:00 PM - 3:00 PM</option>
-                                <option value="3-4">3:00 PM - 4:00 PM</option>
-                            </select>
-                            <button type="button"
+                            <div class="space-y-2">
+                                <div class="flex items-center">
+                                    <input type="checkbox" id="timeslot-8-9" name="timeslot[]" value="8-9"
+                                        class="h-4 w-4 border-gray-300 text-blue-600 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-800 dark:ring-offset-gray-900 dark:focus:ring-blue-600">
+                                    <label for="timeslot-8-9" class="ml-2 text-sm text-gray-800 dark:text-gray-200">8:00
+                                        AM - 9:00 AM</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input type="checkbox" id="timeslot-9-10" name="timeslot[]" value="9-10"
+                                        class="h-4 w-4 border-gray-300 text-blue-600 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-800 dark:ring-offset-gray-900 dark:focus:ring-blue-600">
+                                    <label for="timeslot-9-10"
+                                        class="ml-2 text-sm text-gray-800 dark:text-gray-200">9:00 AM - 10:00 AM</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input type="checkbox" id="timeslot-10-11" name="timeslot[]" value="10-11"
+                                        class="h-4 w-4 border-gray-300 text-blue-600 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-800 dark:ring-offset-gray-900 dark:focus:ring-blue-600">
+                                    <label for="timeslot-10-11"
+                                        class="ml-2 text-sm text-gray-800 dark:text-gray-200">10:00 AM - 11:00
+                                        AM</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input type="checkbox" id="timeslot-2-3" name="timeslot[]" value="2-3"
+                                        class="h-4 w-4 border-gray-300 text-blue-600 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-800 dark:ring-offset-gray-900 dark:focus:ring-blue-600">
+                                    <label for="timeslot-2-3" class="ml-2 text-sm text-gray-800 dark:text-gray-200">2:00
+                                        PM - 3:00 PM</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input type="checkbox" id="timeslot-3-4" name="timeslot[]" value="3-4"
+                                        class="h-4 w-4 border-gray-300 text-blue-600 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-800 dark:ring-offset-gray-900 dark:focus:ring-blue-600">
+                                    <label for="timeslot-3-4"
+                                        class="ml-2 text-sm text-gray-800 dark:text-gray-200">3:00 PM - 4:00 PM</label>
+                                </div>
+                            </div>
+
+                            {{-- <button type="button"
                                 class="rounded-lg bg-blue-600 px-3 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800">
                                 Add Timeslot
-                            </button>
+                            </button> --}}
                         </div>
                     </div>
+
 
                     <!-- Other Fields -->
                     <!-- Repeat fields for experience, expertise, qualifications, etc. -->
@@ -148,7 +174,7 @@
 
                 <!-- Add Assessment Button -->
                 <div class="mt-5 flex justify-center">
-                    <a href="#"
+                    <a href="{{ route('assessments.index') }}"
                         class="rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-green-700 dark:bg-green-700 dark:hover:bg-green-800">
                         Add Assessment
                     </a>
