@@ -49,5 +49,7 @@ Route::get('/tutees',[TuteeController::class, 'index'])->name('tutees.index');
 
 // assessment route
 Route::get('/assessments', [TuitionAssessmentController::class, 'index'])->name('assessments.index');
+
+Route::view('tutee/{id}/assessments', 'tutee.assessments.index');
 // Route::view('tutee/{id}/edit', 'tutee.tutors.edit');
 require __DIR__.'/auth.php';
