@@ -17,7 +17,11 @@ return new class extends Migration {
             $table->foreign('tutor_id')->references('id')->on('users');
             $table->foreign('tutee_id')->references('id')->on('users');
             $table->string('expertise');
-            $table->string('timeslot');
+            $table->date('date');
+            $table->enum('timeslot', ['morning', 'afternoon', 'evening']);
+            $table->enum('status', ['pending', 'accepted', 'rejected', 'canceled', 'completed'])->default('pending');
+            $table->double('score')->default(0);
+            $table->json('answers')->nullable();
             $table->timestamps();
         });
     }

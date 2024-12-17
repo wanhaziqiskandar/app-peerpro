@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\TuitionAssessment;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TuitionAssessmentController extends Controller
 {
@@ -13,7 +14,7 @@ class TuitionAssessmentController extends Controller
      */
     public function index()
     {
-        $assessments = User::where('role', 'tutor')->get();
+        $assessments = Auth::user()->tutor_assessments??null;
         // dd($tutors); to view data without page
         return view('tutor.assessments.index', [
             'assessments' => $assessments,
@@ -25,7 +26,7 @@ class TuitionAssessmentController extends Controller
      */
     public function create()
     {
-        //
+        return view('tutor.assessments.create');
     }
 
     /**
@@ -33,7 +34,13 @@ class TuitionAssessmentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // dd($request->questions);
+        $questions = $request->questions;
+        $user = Auth::user();
+        $user->tutor_assessments()->create([
+            'questions' => $questions,
+        ]);
+        return redirect(route('assessments.index'));
     }
 
     /**
@@ -67,5 +74,5 @@ class TuitionAssessmentController extends Controller
     {
         //
     }
-    
+
 }

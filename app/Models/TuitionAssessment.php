@@ -16,8 +16,7 @@ class TuitionAssessment extends Model
      */
     protected $fillable = [
         'tutor_id',
-        'request_id',
-        'expertise',
+        'questions',
     ];
 
     protected function casts(): array

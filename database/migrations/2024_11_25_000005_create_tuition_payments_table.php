@@ -18,6 +18,7 @@ return new class extends Migration {
             $table->foreign('request_id')->references('id')->on('tuition_requests');
             $table->string('amount');
             $table->string('date');
+            $table->enum('status', ['pending', 'success', 'fail'])->default('pending');
             $table->timestamps();
         });
     }

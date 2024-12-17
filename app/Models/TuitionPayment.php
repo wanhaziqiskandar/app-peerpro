@@ -19,6 +19,7 @@ class TuitionPayment extends Model
         'request_id',
         'amount',
         'date',
+        'status',
     ];
 
     /**

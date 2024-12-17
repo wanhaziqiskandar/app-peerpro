@@ -58,7 +58,21 @@ class User extends Authenticatable
         ];
     }
 
-    // tutor receives 
+    public function isTutor()
+    {
+        if($this->role == 'tutor'){
+            return true;
+        }
+        return false;
+    }
+    public function isTutee()
+    {
+        if($this->role == 'tutee'){
+            return true;
+        }
+        return false;
+    }
+    // tutor receives
     public function receivedTuitionRequests()
     {
         return $this->hasMany(TuitionRequest::class, 'tutor_id');
@@ -68,5 +82,10 @@ class User extends Authenticatable
     public function sentTuitionRequests()
     {
         return $this->hasMany(TuitionRequest::class, 'tutee_id');
+    }
+
+    public function tutor_assessments()
+    {
+        return $this->hasOne(TuitionAssessment::class, 'tutor_id', 'id');
     }
 }

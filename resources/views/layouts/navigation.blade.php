@@ -17,12 +17,23 @@
                     </x-nav-link>
                 </div>
 
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <!-- Tutor Link -->
-                    <x-nav-link :href="route('tutors.index')" :active="request()->routeIs('tutors.index')">
-                        {{ __('Tutor') }}
-                    </x-nav-link>
-                </div>
+                @if(Auth::user()->isTutee())
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <!-- Tutor Link -->
+                        <x-nav-link :href="route('tutors.index')" :active="request()->routeIs('tutors.index')">
+                            {{ __('Tutor') }}
+                        </x-nav-link>
+                    </div>
+                @endif
+
+                @if(Auth::user()->isTutor())
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <!-- Tutor Link -->
+                        <x-nav-link :href="route('assessments.index')" :active="request()->routeIs('assessments.index')">
+                            {{ __('Assessment') }}
+                        </x-nav-link>
+                    </div>
+                @endif
 
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <!-- Request Link -->

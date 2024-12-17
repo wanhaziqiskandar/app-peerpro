@@ -17,10 +17,29 @@ class TuitionRequest extends Model
     protected $fillable = [
         'tutor_id',
         'tutee_id',
-        'expertise',
+        'date',
+        'status',
+        'score',
+        'answers',
         'timeslot',
 
     ];
+
+    protected $casts = [
+        'answers' => 'json',
+    ];
+
+    public function getSessionAttribute()
+    {
+        switch($this->timeslot){
+            case('morning'):
+                return '9:00am - 12:00pm';
+            case('afternoon'):
+                return '1:00pm - 4:00pm';
+            case('evening'):
+                return '6:00pm - 9:00pm';
+        }
+    }
 
     /**
      * Get the tutor associated with the tuition request.
@@ -36,5 +55,10 @@ class TuitionRequest extends Model
     public function tutee()
     {
         return $this->belongsTo(User::class, 'tutee_id');
+    }
+
+    public function payment()
+    {
+        return $this->hasOne(TuitionPayment::class, 'request_id', 'id')->latest();
     }
 }

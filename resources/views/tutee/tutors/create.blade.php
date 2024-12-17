@@ -8,28 +8,42 @@
                 <p class="text-sm text-gray-600 dark:text-gray-400">Submit your requirements for tutoring assistance.</p>
             </div>
 
-            <form>
+            <form action="{{route('requests.store', $tutor)}}" method="POST">
+                @csrf
+                @method('post')
                 <!-- Grid -->
                 <div class="grid gap-4 sm:grid-cols-12 sm:gap-6">
-
+                    <input type="text" name="tutor_id" value="{{$tutor->id}}" hidden>
                     <!-- Expertise -->
                     <div class="sm:col-span-3">
                         <label class="mt-2.5 text-sm text-gray-800 dark:text-gray-200">Expertise</label>
                     </div>
                     <div class="sm:col-span-9">
                         <input type="text"
+                            disabled
+                            name="expertise"
+                            value="{{$tutor->expertise}}"
                             class="block w-full rounded-lg border-gray-200 px-3 py-2 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300"
                             placeholder="Enter tutor expertise">
                     </div>
 
                     <!-- Requirement -->
                     <div class="sm:col-span-3">
-                        <label class="mt-2.5 text-sm text-gray-800 dark:text-gray-200">Requirement (Optional)</label>
+                        <label class="mt-2.5 text-sm text-gray-800 dark:text-gray-200">Additional Notes (Optional)</label>
                     </div>
                     <div class="max-w-sm space-y-2 sm:col-span-9">
                         <textarea
+                            name="additional_request"
                             class="block w-full rounded-lg border-transparent bg-gray-100 px-4 py-3 text-sm focus:border-blue-500 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-900 dark:text-gray-300"
-                            rows="3" placeholder="Enter your learning requirements"></textarea>
+                            rows="3" placeholder="Write any additional requests here..."></textarea>
+                    </div>
+
+                    <!-- Date -->
+                    <div class="sm:col-span-3">
+                        <label class="mt-2.5 text-sm text-gray-800 dark:text-gray-200">Date</label>
+                    </div>
+                    <div class="sm:col-span-9">
+                        <input class="block w-full rounded-lg border-gray-200 px-3 py-2 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300" type="date" name="date" value="{{date('Y-m-d')}}" min="{{date('Y-m-d')}}">
                     </div>
 
                     <!-- Timeslot -->
@@ -38,6 +52,7 @@
                     </div>
                     <div class="sm:col-span-9">
                         <select
+                            name="session"
                             class="block w-full rounded-lg border-gray-200 px-3 py-2 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300">
                             <option selected disabled>Choose a timeslot</option>
                             <option value="morning">Morning (9:00 AM - 12:00 PM)</option>
@@ -49,8 +64,7 @@
                 <!-- End Grid -->
 
                 <div class="mt-5 flex justify-end gap-2">
-                    <button type="button"
-                        class="rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-800 shadow-sm hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700">Cancel</button>
+                    <a class="rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-800 shadow-sm hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700" href="{{route('tutors.index')}}">Cancel</a>
                     <button type="submit"
                         class="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800">Next</button>
                 </div>

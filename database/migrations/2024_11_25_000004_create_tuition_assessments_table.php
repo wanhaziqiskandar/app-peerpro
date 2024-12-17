@@ -13,10 +13,10 @@ return new class extends Migration {
         Schema::create('tuition_assessments', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('tutor_id');
-            $table->unsignedBigInteger('request_id');
+            // $table->unsignedBigInteger('request_id');
             $table->foreign('tutor_id')->references('id')->on('users');
-            $table->foreign('request_id')->references('id')->on('tuition_requests');
-            $table->string('expertise');
+            // $table->foreign('request_id')->references('id')->on('tuition_requests');
+            // $table->string('expertise');
             $table->json('questions');
             $table->timestamps();
         });

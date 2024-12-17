@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Tutor;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -23,11 +22,12 @@ class TutorController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(int $id)
     {
-        $tutors = User::where('role', 'tutor')->get();
+        $tutor = User::find($id);
+
         return view('tutee.tutors.create', [
-            'tutors' => $tutors
+            'tutor' => $tutor
         ]);
     }
 
@@ -36,7 +36,7 @@ class TutorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        dd($request);
     }
 
     /**
@@ -46,7 +46,7 @@ class TutorController extends Controller
     {
         $tutor = User::find($id);
 
-        // dd($tutor); 
+        // dd($tutor);
         return view('tutee.tutors.show', [
             'tutor' => $tutor
         ]);

@@ -33,6 +33,9 @@ Route::middleware('auth')->group(function () {
 
 //request route
 Route::get('/requests', [TuitionRequestController::class, 'index'])->name('requests.index');
+Route::post('/requests/tutor/{id}', [TuitionRequestController::class, 'store'])->name('requests.store');
+Route::post('/request/update/status',[TuitionRequestController::class, 'update_status'])->name('requests.update_status');
+Route::post('requests/payment/submit', [TuitionPaymentsController::class, 'submit'])->name('payment.submit');
 
 // tutee route
 Route::get('/tutors', [TutorController::class, 'index'])->name('tutors.index');
@@ -49,7 +52,10 @@ Route::get('/tutees',[TuteeController::class, 'index'])->name('tutees.index');
 
 // assessment route
 Route::get('/assessments', [TuitionAssessmentController::class, 'index'])->name('assessments.index');
+Route::get('/assessments/create', [TuitionAssessmentController::class, 'create'])->name('assessments.create');
+Route::post('/assessments/store', [TuitionAssessmentController::class, 'store'])->name('assessments.store');
 
-Route::view('tutee/{id}/assessments', 'tutee.assessments.index');
+// Route::get('tutee/{id}/assessments/{request_id}', [TuitionRequestController::class, 'assessment'])->name('tutee.assessment');
+Route::post('tutee/assessment/submit', [TuitionRequestController::class, 'submit_assessment'])->name('tutee.submit_assessment');
 // Route::view('tutee/{id}/edit', 'tutee.tutors.edit');
 require __DIR__.'/auth.php';

@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="d-flex justify-content-center align-items-center container-fluid bg-dark" style="min-height: 100vh;">
+    <div class="d-flex justify-content-center align-items-center container-fluid bg-dark p-4" style="min-height: 100vh;">
         <div class="col-lg-8">
             <!-- Main card container with a dark background centered -->
             <div class="card mx-auto rounded-xl bg-gray-800 p-5 shadow-lg">
@@ -17,32 +17,14 @@
                 @endif
 
                 <!-- Form to submit answers -->
-                <form>
+                <form action="{{route('tutee.submit_assessment')}}" method="POST">
                     @csrf
-
-                    <!-- Dummy questions -->
+                    @method('post')
                     @php
-                        $questions = [
-                            [
-                                'id' => 1,
-                                'question' => 'What is the capital of France?',
-                                'type' => 'multiple_choice',
-                                'answers' => ['Paris', 'Berlin', 'Madrid', 'Rome'],
-                            ],
-                            [
-                                'id' => 2,
-                                'question' => 'The Earth is flat.',
-                                'type' => 'true_false',
-                            ],
-                            [
-                                'id' => 3,
-                                'question' => 'What is 2 + 2?',
-                                'type' => 'multiple_choice',
-                                'answers' => ['3', '4', '5', '6'],
-                            ],
-                        ];
+                        $questions = $assessment->questions;
                     @endphp
-
+                    <input type="text" name="assessment_id" value="{{$assessment->id}}" hidden>
+                    <input type="text" name="tuition_request_id" value="{{$tuition_request->id}}" hidden>
                     <!-- Questions dynamically rendered -->
                     <div id="questions-container">
                         @foreach ($questions as $index => $question)
@@ -57,7 +39,7 @@
                                         <div class="multiple-choice-answers mt-3 text-black">
                                             @foreach ($question['answers'] as $answerIndex => $answer)
                                                 <div class="form-check mb-3">
-                                                    <input type="radio" name="answers[{{ $question['id'] }}]"
+                                                    <input type="radio" name="answers[{{ $index }}]"
                                                         value="{{ $answerIndex }}" class="form-check-input" required>
                                                     <label
                                                         class="form-check-label text-white">{{ $answer }}</label>
@@ -67,12 +49,12 @@
                                     @elseif ($question['type'] === 'true_false')
                                         <div class="true-false-answers mt-3 text-black">
                                             <div class="form-check mb-3">
-                                                <input type="radio" name="answers[{{ $question['id'] }}]"
+                                                <input type="radio" name="answers[{{ $index }}]"
                                                     value="true" class="form-check-input" required>
                                                 <label class="form-check-label text-white">True</label>
                                             </div>
                                             <div class="form-check mb-3">
-                                                <input type="radio" name="answers[{{ $question['id'] }}]"
+                                                <input type="radio" name="answers[{{ $index }}]"
                                                     value="false" class="form-check-input" required>
                                                 <label class="form-check-label text-white">False</label>
                                             </div>
