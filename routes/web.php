@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ScoreController;
 use App\Http\Controllers\TuitionAssessmentController;
 use App\Http\Controllers\TuitionPaymentsController;
 use App\Http\Controllers\TuitionRequestController;
@@ -58,4 +59,8 @@ Route::post('/assessments/store', [TuitionAssessmentController::class, 'store'])
 // Route::get('tutee/{id}/assessments/{request_id}', [TuitionRequestController::class, 'assessment'])->name('tutee.assessment');
 Route::post('tutee/assessment/submit', [TuitionRequestController::class, 'submit_assessment'])->name('tutee.submit_assessment');
 // Route::view('tutee/{id}/edit', 'tutee.tutors.edit');
+
+//score
+// Route::view('/scores', 'tutor.scores.index');
+Route::get('/scores', [ScoreController::class, 'index'])->name('scores.index');
 require __DIR__.'/auth.php';
