@@ -14,7 +14,7 @@ class TuitionAssessmentController extends Controller
      */
     public function index()
     {
-        $assessments = Auth::user()->tutor_assessments??null;
+        $assessments = Auth::user()->tutor_assessments ?? null;
         // dd($tutors); to view data without page
         return view('tutor.assessments.index', [
             'assessments' => $assessments,
@@ -43,6 +43,8 @@ class TuitionAssessmentController extends Controller
         return redirect(route('assessments.index'));
     }
 
+    
+
     /**
      * Display the specified resource.
      */
@@ -56,7 +58,7 @@ class TuitionAssessmentController extends Controller
      */
     public function edit(TuitionAssessment $tuitionAssessment)
     {
-        //
+        return view('tutor.assessments.edit', compact('tuitionAssessment'));
     }
 
     /**
@@ -64,7 +66,14 @@ class TuitionAssessmentController extends Controller
      */
     public function update(Request $request, TuitionAssessment $tuitionAssessment)
     {
-        //
+        // Validate and update the assessment
+        $request->validate([
+            'questions' => 'required|array',
+        ]);
+        $tuitionAssessment->update([
+            'questions' => $request->questions,
+        ]);
+        return redirect()->route('assessments.index')->with('success', 'Assessment updated successfully');
     }
 
     /**
@@ -72,7 +81,11 @@ class TuitionAssessmentController extends Controller
      */
     public function destroy(TuitionAssessment $tuitionAssessment)
     {
-        //
+        // Delete the assessment
+        $tuitionAssessment->delete();
+
+        // Redirect to the assessments index
+        return redirect(route('assessments.index'))->with('success', 'Assessment deleted successfully');
     }
 
 }

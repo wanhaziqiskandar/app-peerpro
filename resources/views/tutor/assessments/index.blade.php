@@ -42,6 +42,13 @@
                             </div>
                         </div>
                     @endforeach
+                    <!-- Edit Button -->
+                    <div class="mt-4">
+                        <a href="{{ route('assessments.edit', $assessments->id) }}"
+                            class="inline-block rounded-lg bg-blue-600 px-5 py-3 text-sm font-medium text-white hover:bg-blue-700 focus:ring-4 focus:ring-blue-300">
+                            Edit Assessment
+                        </a>
+                    </div>
                 @else
                     <!-- Styled "No Assessments" card with dark background -->
                     <div
