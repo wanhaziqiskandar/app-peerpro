@@ -76,29 +76,13 @@ class TutorController extends Controller
      */
     public function show($id)
     {
-        $tutor = User::where('id', $id)->where('role', 'tutor')->first();
 
-        if (!$tutor) {
-            return response()->json(['error' => 'Tutor not found'], 404);
-        }
+        $tutor = User::find($id);
 
-        return response()->json([
-            'id' => $tutor->id,
-            'name' => $tutor->name,
-            'age' => $tutor->age,
-            'experience' => $tutor->experience,
-            'qualifications' => $tutor->qualifications,
-            'expertise' => $tutor->expertise,
-            'email' => $tutor->email,
-            'phone_number' => $tutor->phone_number,
+        // dd($tutor);
+        return view('tutee.tutors.show', [
+            'tutor' => $tutor
         ]);
-
-        // $tutor = User::find($id);
-
-        // // dd($tutor);
-        // return view('tutee.tutors.show', [
-        //     'tutor' => $tutor
-        // ]);
     }
 
     /**
