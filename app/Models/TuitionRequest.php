@@ -31,12 +31,12 @@ class TuitionRequest extends Model
 
     public function getSessionAttribute()
     {
-        switch($this->timeslot){
-            case('morning'):
+        switch ($this->timeslot) {
+            case ('morning'):
                 return '9:00am - 12:00pm';
-            case('afternoon'):
+            case ('afternoon'):
                 return '1:00pm - 4:00pm';
-            case('evening'):
+            case ('evening'):
                 return '6:00pm - 9:00pm';
         }
     }
@@ -61,4 +61,10 @@ class TuitionRequest extends Model
     {
         return $this->hasOne(TuitionPayment::class, 'request_id', 'id')->latest();
     }
+
+    public function tuitionAssessment()
+    {
+        return $this->belongsTo(TuitionAssessment::class);
+    }
+
 }

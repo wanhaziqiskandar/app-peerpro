@@ -16,11 +16,15 @@ class TuitionRequestFactory extends Factory
      */
     public function definition(): array
     {
+
         return [
             'tutor_id' => fake()->numberBetween(1, 10),
             'tutee_id' => fake()->numberBetween(1, 10),
-            'expertise' => fake()->words(fake()->numberBetween(1, 5), true),
-            'timeslot' => fake()->time('Y-m-d H:i:s'),
+            'expertise' => fake()->randomElement(['HTML', 'CSS', 'JavaScript']),
+            'date' => fake()->date(),
+            'timeslot' => fake()->randomElement(['morning', 'afternoon', 'evening']),
+            'status' => fake()->randomElement(['pending', 'accepted', 'rejected', 'canceled', 'completed']),
+            'score' => fake()->randomFloat(1, 0, 100),
         ];
     }
 }

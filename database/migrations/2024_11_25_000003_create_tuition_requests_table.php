@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('tutee_id');
             $table->foreign('tutor_id')->references('id')->on('users');
             $table->foreign('tutee_id')->references('id')->on('users');
-            $table->string('expertise');
+            $table->string('expertise')->nullable();
             $table->date('date');
             $table->enum('timeslot', ['morning', 'afternoon', 'evening']);
             $table->enum('status', ['pending', 'accepted', 'rejected', 'canceled', 'completed'])->default('pending');

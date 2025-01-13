@@ -34,7 +34,6 @@ class TuitionAssessmentController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->questions);
         $questions = $request->questions;
         $user = Auth::user();
         $user->tutor_assessments()->create([
@@ -43,7 +42,7 @@ class TuitionAssessmentController extends Controller
         return redirect(route('assessments.index'));
     }
 
-    
+
 
     /**
      * Display the specified resource.

@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\ChatConversationController;
+use App\Http\Controllers\ChatMessageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ScoreController;
 use App\Http\Controllers\TuitionAssessmentController;
@@ -7,6 +9,8 @@ use App\Http\Controllers\TuitionPaymentsController;
 use App\Http\Controllers\TuitionRequestController;
 use App\Http\Controllers\TuteeController;
 use App\Http\Controllers\TutorController;
+use App\Livewire\ChatConversationsPage;
+use App\Livewire\ChatMessagesPage;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -35,7 +39,7 @@ Route::middleware('auth')->group(function () {
 //request route
 Route::get('/requests', [TuitionRequestController::class, 'index'])->name('requests.index');
 Route::post('/requests/tutor/{id}', [TuitionRequestController::class, 'store'])->name('requests.store');
-Route::post('/request/update/status',[TuitionRequestController::class, 'update_status'])->name('requests.update_status');
+Route::post('/request/update/status', [TuitionRequestController::class, 'update_status'])->name('requests.update_status');
 Route::post('requests/payment/submit', [TuitionPaymentsController::class, 'submit'])->name('payment.submit');
 
 // tutee route
@@ -49,12 +53,15 @@ Route::view('tutee/{id}/edit', 'tutee.tutors.edit');
 
 //tutor route
 Route::view('tutor/{id}/edit', 'tutor.tutees.edit');
-Route::get('/tutees',[TuteeController::class, 'index'])->name('tutees.index');
+Route::get('/tutees', [TuteeController::class, 'index'])->name('tutees.index');
 
 // assessment route
 Route::get('/assessments', [TuitionAssessmentController::class, 'index'])->name('assessments.index');
 Route::get('/assessments/create', [TuitionAssessmentController::class, 'create'])->name('assessments.create');
 Route::post('/assessments/store', [TuitionAssessmentController::class, 'store'])->name('assessments.store');
+Route::get('/assessments/{tuitionAssessment}/edit', [TuitionAssessmentController::class, 'edit'])->name('assessments.edit');
+Route::put('/assessments/{tuitionAssessment}', [TuitionAssessmentController::class, 'update'])->name('assessments.update');
+Route::delete('/assessments/{tuitionAssessment}', [TuitionAssessmentController::class, 'destroy'])->name('assessments.destroy');
 
 // Route::get('tutee/{id}/assessments/{request_id}', [TuitionRequestController::class, 'assessment'])->name('tutee.assessment');
 Route::post('tutee/assessment/submit', [TuitionRequestController::class, 'submit_assessment'])->name('tutee.submit_assessment');
@@ -62,5 +69,17 @@ Route::post('tutee/assessment/submit', [TuitionRequestController::class, 'submit
 
 //score
 // Route::view('/scores', 'tutor.scores.index');
-Route::get('/scores', [ScoreController::class, 'index'])->name('scores.index');
-require __DIR__.'/auth.php';
+// Route::get('/scores', [ScoreController::class, 'index'])->name('scores.index');
+Route::get('/assessments/results', function () {
+    return view('tutor.assessments.result'); // Adjusted to 'tutor.assessments.result'
+})->name('assessments.results');
+
+
+//chat
+Route::middleware(['auth'])->group(function () {
+    Route::get('/chat/conversations', ChatConversationsPage::class)->name('chat.conversations.index');
+    Route::get('/chat/conversations/{chat_conversation_id}', ChatMessagesPage::class)->name('chat.conversations.show');
+    Route::post('/chat/conversations/redirect/{user_id}', [ChatConversationController::class, 'redirect'])->name('chat.conversations.redirect');
+
+});
+require __DIR__ . '/auth.php';

@@ -4,6 +4,8 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -58,20 +60,32 @@ class User extends Authenticatable
         ];
     }
 
+    // public function isTutor()
+    // {
+    //     if($this->role == 'tutor'){
+    //         return true;
+    //     }
+    //     return false;
+    // }
+    // public function isTutee()
+    // {
+    //     if($this->role == 'tutee'){
+    //         return true;
+    //     }
+    //     return false;
+    // }
+
     public function isTutor()
     {
-        if($this->role == 'tutor'){
-            return true;
-        }
-        return false;
+        // Ensure the role is exactly 'tutor' and case-sensitive issues are handled
+        return $this->role === 'tutor'; // Use === for strict comparison
     }
+
     public function isTutee()
     {
-        if($this->role == 'tutee'){
-            return true;
-        }
-        return false;
+        return $this->role === 'tutee'; // Use === for strict comparison
     }
+
     // tutor receives
     public function receivedTuitionRequests()
     {
@@ -87,5 +101,15 @@ class User extends Authenticatable
     public function tutor_assessments()
     {
         return $this->hasOne(TuitionAssessment::class, 'tutor_id', 'id');
+    }
+
+    public function chat_conversations(): BelongsToMany
+    {
+        return $this->belongsToMany(ChatConversation::class)->using(ChatConversationUser::class);
+    }
+
+    public function chat_messages(): HasMany
+    {
+        return $this->hasMany(ChatMessage::class, 'author_id');
     }
 }

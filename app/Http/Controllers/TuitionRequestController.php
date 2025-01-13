@@ -96,8 +96,9 @@ class TuitionRequestController extends Controller
         ]);
 
 
-        return redirect(route('dashboard'));
+        return redirect(route('assessments.results'));
     }
+    
 
     public function update_status(Request $request)
     {
