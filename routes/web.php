@@ -62,6 +62,8 @@ Route::post('/assessments/store', [TuitionAssessmentController::class, 'store'])
 Route::get('/assessments/{tuitionAssessment}/edit', [TuitionAssessmentController::class, 'edit'])->name('assessments.edit');
 Route::put('/assessments/{tuitionAssessment}', [TuitionAssessmentController::class, 'update'])->name('assessments.update');
 Route::delete('/assessments/{tuitionAssessment}', [TuitionAssessmentController::class, 'destroy'])->name('assessments.destroy');
+Route::delete('/assessments/{assessment}/questions/{index}', [TuitionAssessmentController::class, 'deleteQuestion']);
+
 
 // Route::get('tutee/{id}/assessments/{request_id}', [TuitionRequestController::class, 'assessment'])->name('tutee.assessment');
 Route::post('tutee/assessment/submit', [TuitionRequestController::class, 'submit_assessment'])->name('tutee.submit_assessment');

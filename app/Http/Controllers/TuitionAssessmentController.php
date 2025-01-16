@@ -87,4 +87,12 @@ class TuitionAssessmentController extends Controller
         return redirect(route('assessments.index'))->with('success', 'Assessment deleted successfully');
     }
 
+    public function deleteQuestion(Request $request, TuitionAssessment $assessment, $index)
+    {
+        $questions = $assessment->questions;
+        unset($questions[$index]);
+        $assessment->update(['questions' => array_values($questions)]);
+        return response()->json(['message' => 'Question deleted successfully'], 200);
+    }
+
 }
