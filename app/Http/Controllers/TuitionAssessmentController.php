@@ -47,7 +47,7 @@ class TuitionAssessmentController extends Controller
      */
     public function show(TuitionAssessment $tuitionAssessment)
     {
-        //
+        return view('tutor.assessments.show');
     }
 
     /**
