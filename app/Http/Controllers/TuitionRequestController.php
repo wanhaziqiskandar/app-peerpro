@@ -95,10 +95,15 @@ class TuitionRequestController extends Controller
             'answers' => $answers,
         ]);
 
-
-        return redirect(route('assessments.results'));
+        return view('tutor.assessments.result', [
+            'tuition_request' => $tuition_request,
+            'score_percent' => $score_percent,
+            'score' => $score,
+            'total' => $total,
+        ]);
+        // return redirect(route('assessments.results'));
     }
-    
+
 
     public function update_status(Request $request)
     {
@@ -109,6 +114,16 @@ class TuitionRequestController extends Controller
         ]);
 
         return redirect(route('requests.index'));
+    }
+
+    public function score_result(int $id)
+    {
+        $tuition_request = TuitionRequest::find($id);
+        return view('tutor.assessments.result', [
+            'tuition_request' => $tuition_request,
+            'score' => 0,
+            'total' => 0,
+        ]);
     }
     /**
      * Display the specified resource.

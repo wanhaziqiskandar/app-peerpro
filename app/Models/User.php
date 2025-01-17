@@ -112,4 +112,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(ChatMessage::class, 'author_id');
     }
+
+    public function subjects():HasMany
+    {
+        return $this->hasMany(TutorSubject::class, 'tutor_id', 'id');
+    }
 }

@@ -41,6 +41,18 @@ class TuitionRequest extends Model
         }
     }
 
+    public function getLevelAttribute()
+    {
+        $score = $this->score;
+        if($score >= 75){
+            return 'Expert';
+        } elseif ($score >= 50) {
+            return 'Intermediate';
+        } else {
+            return 'Beginner';
+        }
+    }
+
     /**
      * Get the tutor associated with the tuition request.
      */

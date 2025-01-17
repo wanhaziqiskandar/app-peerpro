@@ -72,10 +72,10 @@ Route::post('tutee/assessment/submit', [TuitionRequestController::class, 'submit
 //score
 // Route::view('/scores', 'tutor.scores.index');
 // Route::get('/scores', [ScoreController::class, 'index'])->name('scores.index');
-Route::get('/assessments/results', function () {
-    return view('tutor.assessments.result'); // Adjusted to 'tutor.assessments.result'
-})->name('assessments.results');
-
+// Route::get('/assessments/results', function () {
+//     return view('tutor.assessments.result'); // Adjusted to 'tutor.assessments.result'
+// })->name('assessments.results');
+Route::get('assessment/results/{id}', [TuitionRequestController::class, 'score_result'])->name('assessments.results');
 
 //chat
 Route::middleware(['auth'])->group(function () {

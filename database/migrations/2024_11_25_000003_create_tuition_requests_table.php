@@ -14,8 +14,10 @@ return new class extends Migration {
             $table->id();
             $table->unsignedBigInteger('tutor_id');
             $table->unsignedBigInteger('tutee_id');
+            $table->unsignedBigInteger('assessment_id');
             $table->foreign('tutor_id')->references('id')->on('users');
             $table->foreign('tutee_id')->references('id')->on('users');
+            $table->foreign('assessment_id')->references('id')->on('tuition_assessments');
             $table->string('expertise')->nullable();
             $table->date('date');
             $table->enum('timeslot', ['morning', 'afternoon', 'evening']);

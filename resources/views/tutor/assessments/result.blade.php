@@ -9,14 +9,14 @@
                     <!-- Tutee Details -->
                     <div class="mb-6">
                         <h2 class="text-lg font-semibold text-gray-700">Tutee Name:</h2>
-                        <p class="text-lg text-gray-500">{{ session('tutee_name') }}</p>
+                        <p class="text-lg text-gray-500">{{ $tuition_request->tutee->name }}</p>
                     </div>
 
                     <!-- Score Summary -->
                     <div class="mb-6">
                         <h2 class="text-lg font-semibold text-gray-700">Score:</h2>
                         <p class="text-5xl font-extrabold text-green-500">
-                            {{ session('score') }} / {{ session('total') }}
+                            {{$tuition_request->score}}% ({{$tuition_request->level}})
                         </p>
                         <p class="mt-2 text-gray-500">Great job! Keep improving!</p>
                     </div>

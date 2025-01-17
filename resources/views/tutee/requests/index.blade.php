@@ -10,7 +10,7 @@
                         <div class="p-4 md:p-7">
                             <!-- Name -->
                             <h3 class="mt-1 text-sm text-gray-600">
-                                Name: {{ $request->tutee->name }}
+                                Name: {{auth()->user()->isTutor() ? $request->tutee->name : $request->tutor->name}}
                             </h3>
                             <!-- Expertise -->
                             <p class="mt-1 text-sm text-gray-600">
@@ -32,7 +32,7 @@
                             <div class="mt-4 flex flex-col items-center gap-y-3">
                                 <!-- View Assessment Button (visible for tutor before accepting) -->
                                 @if (Auth::user()->isTutor())
-                                    <a href="{{ route('assessments.results') }}"
+                                    <a href="{{ route('assessments.results', ['id' => $request->id]) }}"
                                         class="inline-flex items-center justify-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700">
                                         View Assessment
                                     </a>
