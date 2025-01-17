@@ -22,7 +22,7 @@ return new class extends Migration {
             $table->string('password');
             $table->string('role');
             $table->string('experience')->nullable();
-            $table->string('expertise')->nullable();
+            // $table->string('expertise')->nullable();
             $table->string('account_number')->nullable();
             $table->string('qualifications')->nullable();
             $table->string('timeslot')->nullable();

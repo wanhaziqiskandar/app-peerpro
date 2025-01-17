@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Subject;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
@@ -19,7 +20,11 @@ class RegisteredUserController extends Controller
      */
     public function create(): View
     {
-        return view('auth.register');
+        $subjects = Subject::all();
+        // dd($subjects);
+        return view('auth.register', [
+            'subjects' => $subjects,
+        ]);
     }
 
     /**
@@ -29,7 +34,7 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        // dd($request);
+        // dd($request->expertise);
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'lastname' => ['required', 'string', 'max:255'],
@@ -39,7 +44,7 @@ class RegisteredUserController extends Controller
             'phone_number' => ['required', 'string', 'max:255'],
             'role' => ['required', 'string', 'max:255'],
             'experience' => ['nullable', 'string', 'max:255'],  // Allow null for experience
-            'expertise' => ['nullable', 'string', 'max:255'],   // Allow null for expertise
+            // 'expertise' => ['nullable', 'string', 'max:255'],   // Allow null for expertise
             'account_number' => ['nullable', 'string', 'max:255'], // Allow null for account_number
             'qualifications' => ['nullable', 'string', 'max:255'], // Allow null for qualifications
             'price_rate' => ['required_if:role,tutor', 'nullable', 'numeric', 'min:0', 'max:1000.00'], // Price rate as numeric with min/max
@@ -64,10 +69,23 @@ class RegisteredUserController extends Controller
             'email_verified_at' => now(), // Optional if email verification isn't used
         ]);
 
+        if($user->isTutor()){
+            foreach($request->expertise as $expertise){
+                $user->subjects()->insert([
+                    'tutor_id' => $user->id,
+                    'subject_id' => $expertise,
+                ]);
+            }
+        }
+
         event(new Registered($user));
 
         Auth::login($user);
 
-        return redirect(route('dashboard', absolute: false));
+        if($user->isTutor()){
+            return redirect(route('profile.edit'));
+        } else {
+            return redirect(route('dashboard', absolute: false));
+        }
     }
 }

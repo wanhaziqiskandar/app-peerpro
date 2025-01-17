@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Subject;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -31,7 +32,7 @@ class TutorController extends Controller
         $tutors = $query->get();
 
         // Fetch all distinct expertise values from the database
-        $expertiseOptions = User::where('role', 'tutor')->distinct()->pluck('expertise');
+        $expertiseOptions = Subject::all()->pluck('subject_name');
 
         return view('tutee.tutors.index', [
             'tutors' => $tutors,

@@ -83,11 +83,11 @@
                 <x-input-label for="experience" :value="__('Experience')" />
                 <select id="experience" name="experience" class="mt-1 block w-full">
                     <option value="" disabled selected>{{ __('Select your experience') }}</option>
-                    <option value="less_than_1_year">{{ __('Less than 1 year') }}</option>
-                    <option value="1_year">{{ __('1 year') }}</option>
-                    <option value="2_years">{{ __('2 years') }}</option>
-                    <option value="3_years">{{ __('3 years') }}</option>
-                    <option value="more_than_3_years">{{ __('More than 3 years') }}</option>
+                    <option value="Less than 1 year">{{ __('Less than 1 year') }}</option>
+                    <option value="1 year">{{ __('1 year') }}</option>
+                    <option value="2 years">{{ __('2 years') }}</option>
+                    <option value="3 years">{{ __('3 years') }}</option>
+                    <option value="More than 3 years">{{ __('More than 3 years') }}</option>
                 </select>
                 <x-input-error :messages="$errors->get('experience')" class="mt-2" />
             </div>
@@ -96,26 +96,29 @@
             <div class="mt-4">
                 <x-input-label for="expertise" :value="__('Expertise')" />
 
-                <select id="expertise" name="expertise" class="mt-1 block w-full">
-                    <option value="" disabled selected>{{ __('Select Expertise') }}</option>
-                    <!-- Dummy subjects data -->
-                    <option value="1" {{ old('expertise') == '1' ? 'selected' : '' }}>Bahasa Melayu (Secondary)
-                    </option>
-                    <option value="2" {{ old('expertise') == '2' ? 'selected' : '' }}>English (Secondary)
-                    </option>
-                    <option value="3" {{ old('expertise') == '3' ? 'selected' : '' }}>Mathematics (Secondary)
-                    </option>
-                    <option value="4" {{ old('expertise') == '4' ? 'selected' : '' }}>Additional Mathematics
-                        (Secondary)</option>
-                    <option value="5" {{ old('expertise') == '5' ? 'selected' : '' }}>Science (Secondary)
-                    </option>
-                    <option value="6" {{ old('expertise') == '6' ? 'selected' : '' }}>Physics (Pre-U)</option>
-                    <option value="7" {{ old('expertise') == '7' ? 'selected' : '' }}>Chemistry (Pre-U)</option>
-                    <option value="8" {{ old('expertise') == '8' ? 'selected' : '' }}>Business Administration
-                        (Diploma)</option>
-                    <option value="9" {{ old('expertise') == '9' ? 'selected' : '' }}>Law (Degree)</option>
-                    <option value="10" {{ old('expertise') == '10' ? 'selected' : '' }}>Software Engineering
-                        (Degree)</option>
+                <select id="expertise" name="expertise[]" class="mt-1 block w-full" multiple>
+                    @foreach ($subjects as $subject )
+                        @php
+                        switch($subject->subject_level){
+                            case('secondary'):
+                                $level = 'Secondary';
+                                break;
+                            case('pre_u'):
+                                $level = 'Pre-University';
+                                break;
+                            case('diploma'):
+                                $level = 'Diploma';
+                                break;
+                            case('degree'):
+                                $level = 'Degree';
+                                break;
+                            default:
+                                $level='';
+                            };
+                        @endphp
+
+                        <option value="{{$subject->id}}">{{$subject->subject_name}} ({{$level}})</option>
+                    @endforeach
                 </select>
 
                 <x-input-error :messages="$errors->get('expertise')" class="mt-2" />
@@ -137,11 +140,11 @@
                 <x-input-label for="qualifications" :value="__('Qualification')" />
                 <select id="qualifications" name="qualifications" class="mt-1 block w-full">
                     <option value="" disabled selected>{{ __('Select Qualification') }}</option>
-                    <option value="secondary_school"
+                    <option value="secondary"
                         {{ old('qualifications') == 'secondary_school' ? 'selected' : '' }}>
                         {{ __('Secondary School') }}
                     </option>
-                    <option value="pre_university" {{ old('qualifications') == 'pre_university' ? 'selected' : '' }}>
+                    <option value="pre_u" {{ old('qualifications') == 'pre_university' ? 'selected' : '' }}>
                         {{ __('Pre University') }}
                     </option>
                     <option value="diploma" {{ old('qualifications') == 'diploma' ? 'selected' : '' }}>

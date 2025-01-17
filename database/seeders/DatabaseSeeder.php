@@ -19,11 +19,14 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $this->seedUsers();
+        // $this->seedUsers();
         // TuitionRequest::factory(10)->create();
         // TuitionPayment::factory(10)->create();
         // TuitionTimeslot::factory(10)->create();
-        $this->seedMessages(2);
+        // $this->seedMessages(2);
+        $this->call([
+            SubjectsSeeder::class,
+        ]);
     }
 
     public function seedUsers()

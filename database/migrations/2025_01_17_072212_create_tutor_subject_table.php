@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('tutor_subject', function (Blueprint $table) {
             $table->unsignedBigInteger('tutor_id');
             $table->unsignedBigInteger('subject_id');
-            $table->unsignedBigInteger('assessment_id');
+            $table->unsignedBigInteger('assessment_id')->nullable();
         });
     }
 

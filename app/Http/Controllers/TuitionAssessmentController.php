@@ -42,8 +42,6 @@ class TuitionAssessmentController extends Controller
         return redirect(route('assessments.index'));
     }
 
-
-
     /**
      * Display the specified resource.
      */

@@ -44,7 +44,6 @@ class UserFactory extends Factory
         if ($role === 'tutor') {
             $attributes = array_merge($attributes, [
                 'experience' => $this->faker->numberBetween(1, 20),
-                'expertise' => $this->faker->jobTitle(),
                 'account_number' => $this->faker->bankAccountNumber(),
                 'qualifications' => 'Bachelor Degree in '. $this->faker->jobTitle(),
                 'price_rate' => $this->faker->randomFloat(2, 15, 150), // realistic pricing rates

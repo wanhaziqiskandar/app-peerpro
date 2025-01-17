@@ -30,7 +30,7 @@ class User extends Authenticatable
         'password',
         'role',
         'experience',
-        'expertise',
+        // 'expertise',
         'account_number',
         'qualifications',
         'price_rate',
@@ -59,21 +59,6 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-
-    // public function isTutor()
-    // {
-    //     if($this->role == 'tutor'){
-    //         return true;
-    //     }
-    //     return false;
-    // }
-    // public function isTutee()
-    // {
-    //     if($this->role == 'tutee'){
-    //         return true;
-    //     }
-    //     return false;
-    // }
 
     public function isTutor()
     {
