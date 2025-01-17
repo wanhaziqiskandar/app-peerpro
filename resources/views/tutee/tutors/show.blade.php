@@ -22,8 +22,13 @@
             Qualification: {{ $tutor->qualifications }}
         </p>
         <p class="text-lg text-gray-800">
-            Expertise: {{ $tutor->expertise }}
+            Expertise
         </p>
+        <ul class=" text-lg  text-gray-600">
+            @foreach ($tutor->expertise as $subject )
+            <li>{{$subject->subject_detail->subject_name}}</li>
+            @endforeach
+        </ul>
 
         <!-- Contact Information -->
         <div class="mt-6 flex flex-col items-center gap-y-4">

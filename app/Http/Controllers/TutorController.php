@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Subject;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
 class TutorController extends Controller
@@ -26,18 +27,24 @@ class TutorController extends Controller
 
         // Filter by expertise (if selected)
         if ($request->has('subject') && $request->subject !== 'all') {
-            $query->where('expertise', $request->subject);
+            $query->whereHas('subjects', function(Builder $q) use ($request){
+                $q->where('subject_id', $request->subject);
+            });
+        }
+        if ($request->has('education') && $request->education !== 'all') {
+            $query->where('qualifications', $request->education);
         }
 
         $tutors = $query->get();
 
         // Fetch all distinct expertise values from the database
-        $expertiseOptions = Subject::all()->pluck('subject_name');
+        $expertiseOptions = Subject::all();
 
         return view('tutee.tutors.index', [
             'tutors' => $tutors,
             'search' => $request->search,
             'subject' => $request->subject,
+            'education' => $request->education,
             'expertiseOptions' => $expertiseOptions, // Pass expertise options to the view
         ]);
     }

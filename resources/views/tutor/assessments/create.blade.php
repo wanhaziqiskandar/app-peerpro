@@ -14,7 +14,7 @@
                 <form action="{{ route('assessments.store') }}" method="POST">
                     @csrf
                     @method('post')
-
+                    <input type="hidden" name="tutor_subject_id" value="{{$subject_id}}">
                     <div id="questions-container">
                         <!-- Initial Question Block -->
                         <div class="question-block card mb-4 rounded-xl bg-gray-100 p-4" id="question-0">
@@ -127,7 +127,7 @@
             newQuestionBlock.innerHTML = `
                 <div class="mb-4 flex items-center justify-between">
                     <label for="question-${questionCount + 1}" class="form-label text-lg font-semibold text-gray-800">Question ${questionCount + 1}:</label>
-                    <button type="button" 
+                    <button type="button"
                             onclick="deleteSingleQuestion(${questionCount})"
                             class="rounded-md bg-red-500 px-4 py-2 text-white transition duration-300 hover:bg-red-600">
                         Delete Question

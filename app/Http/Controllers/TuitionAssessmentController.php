@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\TuitionAssessment;
+use App\Models\TutorSubject;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,19 +15,21 @@ class TuitionAssessmentController extends Controller
      */
     public function index()
     {
-        $assessments = Auth::user()->tutor_assessments ?? null;
+        $subjects = Auth::user()->subjects?? null;
         // dd($tutors); to view data without page
         return view('tutor.assessments.index', [
-            'assessments' => $assessments,
+            'subjects' => $subjects,
         ]);
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(int $id)
     {
-        return view('tutor.assessments.create');
+        return view('tutor.assessments.create', [
+            'subject_id' => $id,
+        ]);
     }
 
     /**
@@ -34,11 +37,17 @@ class TuitionAssessmentController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request);
         $questions = $request->questions;
         $user = Auth::user();
-        $user->tutor_assessments()->create([
+        $assessment = $user->tutor_assessments()->create([
             'questions' => $questions,
         ]);
+        $tutor_subject = TutorSubject::find($request->tutor_subject_id);
+        $tutor_subject->assessment_id = $assessment->id;
+        $tutor_subject->timestamps = false;
+        $tutor_subject->save();
+
         return redirect(route('assessments.index'));
     }
 
@@ -47,7 +56,10 @@ class TuitionAssessmentController extends Controller
      */
     public function show(TuitionAssessment $tuitionAssessment)
     {
-        return view('tutor.assessments.show');
+        $assessments = $tuitionAssessment;
+        return view('tutor.assessments.show',[
+            'assessments' => $assessments,
+        ]);
     }
 
     /**

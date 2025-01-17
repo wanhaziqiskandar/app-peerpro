@@ -21,9 +21,14 @@
                             <label class="mt-2.5 text-sm text-gray-800">Expertise</label>
                         </div>
                         <div class="sm:col-span-9">
-                            <input type="text" disabled name="expertise" value="{{ $tutor->expertise }}"
-                                class="block w-full rounded-lg border-gray-200 px-3 py-2 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                                placeholder="Enter tutor expertise">
+                            <select name="expertise"
+                                required
+                                class="block w-full rounded-lg border-gray-200 px-3 py-2 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                                <option selected disabled>Choose a subject</option>
+                                @foreach ($tutor->expertise as $subject)
+                                    <option value="{{$subject->subject_detail->id}}">{{$subject->subject_detail->subject_name}}</option>
+                                @endforeach
+                            </select>
                         </div>
 
                         <!-- Requirement -->
@@ -52,6 +57,7 @@
                         </div>
                         <div class="sm:col-span-9">
                             <select name="session"
+                                required
                                 class="block w-full rounded-lg border-gray-200 px-3 py-2 shadow-sm focus:border-blue-500 focus:ring-blue-500">
                                 <option selected disabled>Choose a timeslot</option>
                                 <option value="morning">Morning (9:00 AM - 12:00 PM)</option>

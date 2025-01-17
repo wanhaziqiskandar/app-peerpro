@@ -71,6 +71,14 @@ class User extends Authenticatable
         return $this->role === 'tutee'; // Use === for strict comparison
     }
 
+    public function getExpertiseAttribute()
+    {
+        $subjects = $this->subjects()->with('subject_detail')->get();
+        // $subject_list = implode(', ', $subjects->toArray());
+
+        // return $subject_list;
+        return $subjects;
+    }
     // tutor receives
     public function receivedTuitionRequests()
     {

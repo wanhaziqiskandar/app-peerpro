@@ -14,7 +14,7 @@
                             </h3>
                             <!-- Expertise -->
                             <p class="mt-1 text-sm text-gray-600">
-                                Expertise: {{ $request->tutor->expertise }}
+                                Subject: {{ $request->subject->subject_name }}
                             </p>
                             {{-- Timeslot --}}
                             <p class="mt-1 text-sm text-gray-600">

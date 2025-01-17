@@ -45,7 +45,7 @@ Route::post('requests/payment/submit', [TuitionPaymentsController::class, 'submi
 // tutee route
 Route::get('/tutors', [TutorController::class, 'index'])->name('tutors.index');
 Route::get('/tutors/{id}', [TutorController::class, 'show'])->name('tutors.show');
-Route::get('/tutors/{id}/create', [TutorController::class, 'create'])->name('tutors.create');
+Route::get('/tutors/{subject_id}/create', [TutorController::class, 'create'])->name('tutors.create');
 Route::get('tutors/{id}/payments', [TuitionPaymentsController::class, 'index'])->name('payments.index');
 // Route::post('/tutors', [TutorController::class, 'store'])->name('tutors.store');
 Route::view('tutee/{id}/edit', 'tutee.tutors.edit');
@@ -57,8 +57,9 @@ Route::get('/tutees', [TuteeController::class, 'index'])->name('tutees.index');
 
 // assessment route
 Route::get('/assessments', [TuitionAssessmentController::class, 'index'])->name('assessments.index');
-Route::get('/assessments/create', [TuitionAssessmentController::class, 'create'])->name('assessments.create');
+Route::get('/assessments/create/{id}', [TuitionAssessmentController::class, 'create'])->name('assessments.create');
 Route::post('/assessments/store', [TuitionAssessmentController::class, 'store'])->name('assessments.store');
+Route::get('/assessments/{tuitionAssessment}', [TuitionAssessmentController::class, 'show'])->name('assessments.show');
 Route::get('/assessments/{tuitionAssessment}/edit', [TuitionAssessmentController::class, 'edit'])->name('assessments.edit');
 Route::put('/assessments/{tuitionAssessment}', [TuitionAssessmentController::class, 'update'])->name('assessments.update');
 Route::delete('/assessments/{tuitionAssessment}', [TuitionAssessmentController::class, 'destroy'])->name('assessments.destroy');

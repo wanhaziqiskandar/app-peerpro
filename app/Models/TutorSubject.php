@@ -15,10 +15,10 @@ class TutorSubject extends Model
 
     public function subject_detail()
     {
-        return $this->hasOne(Subject::class, 'subject_id', 'id');
+        return $this->belongsTo(Subject::class, 'subject_id', 'id');
     }
     public function assessment()
     {
-        return $this->hasOne(TuitionAssessment::class, 'assessment_id', 'id');
+        return $this->hasOne(TuitionAssessment::class, 'id', 'assessment_id');
     }
 }

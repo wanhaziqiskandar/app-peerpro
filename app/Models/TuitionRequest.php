@@ -17,6 +17,8 @@ class TuitionRequest extends Model
     protected $fillable = [
         'tutor_id',
         'tutee_id',
+        'assessment_id',
+        'expertise',
         'date',
         'status',
         'score',
@@ -77,6 +79,11 @@ class TuitionRequest extends Model
     public function tuitionAssessment()
     {
         return $this->belongsTo(TuitionAssessment::class);
+    }
+
+    public function subject()
+    {
+        return $this->hasOne(Subject::class, 'id', 'expertise');
     }
 
 }
