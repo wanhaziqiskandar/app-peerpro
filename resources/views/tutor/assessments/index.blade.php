@@ -9,7 +9,7 @@
                             class="grid gap-3 border-b border-gray-200 px-6 py-4 md:flex md:items-center md:justify-between">
                             <div>
                                 <h2 class="text-xl font-semibold text-black">
-                                    Your Assessments
+                                    Your Subjects
                                 </h2>
                                 <p class="text-sm text-black">
                                     View and manage your assessments
@@ -28,7 +28,7 @@
                                     </th>
                                     <th scope="col" class="border-b border-gray-200 px-6 py-3 text-start">
                                         <span class="text-xs font-semibold uppercase tracking-wide text-black">
-                                            Assessment Title
+                                            Subjects Title
                                         </span>
                                     </th>
                                     <th scope="col" class="border-b border-gray-200 px-6 py-3 text-end">
@@ -54,14 +54,35 @@
                                         </td>
                                         <td class="border-b border-gray-200 px-6 py-3">
                                             <div class="flex items-center justify-end gap-x-4">
+                                                <!-- View Assessment / Create Assessment -->
                                                 @if ($subject->assessment)
-                                                <a class="inline-flex items-center gap-x-2 text-sm font-medium text-blue-600 decoration-2 hover:underline"
-                                                    href="{{route('assessments.show', ['tuitionAssessment'=> $subject->assessment])}}">
-                                                    View Assessment
-                                                </a>
+                                                    <a class="inline-flex items-center gap-x-2 text-sm font-medium text-blue-600 decoration-2 hover:underline"
+                                                        href="{{ route('assessments.show', ['tuitionAssessment' => $subject->assessment]) }}">
+                                                        View Assessment
+                                                    </a>
                                                 @else
-                                                <a class="inline-flex items-center gap-x-2 rounded-lg border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-md transition-all duration-200 ease-in-out hover:bg-blue-700"
-                                                    href="{{route('assessments.create', ['id'=> $subject->id])}}">
+                                                    <a class="inline-flex items-center gap-x-2 rounded-lg border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-md transition-all duration-200 ease-in-out hover:bg-blue-700"
+                                                        href="{{ route('assessments.create', ['id' => $subject->id]) }}">
+                                                        <svg class="size-4 shrink-0" xmlns="http://www.w3.org/2000/svg"
+                                                            width="24" height="24" viewBox="0 0 24 24"
+                                                            fill="none" stroke="currentColor" stroke-width="2"
+                                                            stroke-linecap="round" stroke-linejoin="round">
+                                                            <path d="M5 12h14" />
+                                                            <path d="M12 5v14" />
+                                                        </svg>
+                                                        Create Assessment
+                                                    </a>
+                                                @endif
+
+                                                <!-- View Material Button -->
+                                                <a class="inline-flex items-center gap-x-2 text-sm font-medium text-green-600 decoration-2 hover:underline"
+                                                    href="#">
+                                                    View Material
+                                                </a>
+
+                                                <!-- Add Material Button -->
+                                                <a class="inline-flex items-center gap-x-2 rounded-lg border border-transparent bg-green-600 px-4 py-2 text-sm font-medium text-white shadow-md transition-all duration-200 ease-in-out hover:bg-green-700"
+                                                    href="#">
                                                     <svg class="size-4 shrink-0" xmlns="http://www.w3.org/2000/svg"
                                                         width="24" height="24" viewBox="0 0 24 24" fill="none"
                                                         stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -69,9 +90,8 @@
                                                         <path d="M5 12h14" />
                                                         <path d="M12 5v14" />
                                                     </svg>
-                                                    Create Assessment
+                                                    Add Material
                                                 </a>
-                                                @endif
                                             </div>
                                         </td>
                                     </tr>

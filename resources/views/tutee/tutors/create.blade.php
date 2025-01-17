@@ -62,7 +62,7 @@
                                 <option selected disabled>Choose a timeslot</option>
                                 <option value="morning">Morning (9:00 AM - 12:00 PM)</option>
                                 <option value="afternoon">Afternoon (1:00 PM - 4:00 PM)</option>
-                                <option value="evening">Evening (5:00 PM - 8:00 PM)</option>
+                                <option value="evening">Evening (6:00 PM - 9:00 PM)</option>
                             </select>
                         </div>
                     </div>

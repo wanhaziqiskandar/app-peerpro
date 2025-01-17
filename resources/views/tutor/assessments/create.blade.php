@@ -14,7 +14,7 @@
                 <form action="{{ route('assessments.store') }}" method="POST">
                     @csrf
                     @method('post')
-                    <input type="hidden" name="tutor_subject_id" value="{{$subject_id}}">
+                    <input type="hidden" name="tutor_subject_id" value="{{ $subject_id }}">
                     <div id="questions-container">
                         <!-- Initial Question Block -->
                         <div class="question-block card mb-4 rounded-xl bg-gray-100 p-4" id="question-0">
@@ -30,7 +30,7 @@
 
                             <div class="card-body text-black">
                                 <input type="text" name="questions[0][question]"
-                                    class="form-control mb-3 w-full rounded-md border p-3 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                    class="form-control mb-3 w-full rounded-md border border-gray-300 p-3 text-gray-800 placeholder-gray-500 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                                     placeholder="Enter your question here" required>
 
                                 <label class="form-label mt-3 text-sm text-gray-800">Select Question Type:</label>
@@ -134,7 +134,7 @@
                     </button>
                 </div>
                 <div class="card-body">
-                    <input type="text" name="questions[${questionCount}][question]" class="form-control mb-3 p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Enter your question here" required>
+                    <input type="text" name="questions[${questionCount}][question]" class="form-control mb-3 p-3 w-full rounded-md border focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Enter your question here" required>
 
                     <label class="form-label mt-3 text-sm text-gray-800">Select Question Type:</label>
                     <div class="form-check">
