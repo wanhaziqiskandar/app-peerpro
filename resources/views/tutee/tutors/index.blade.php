@@ -6,20 +6,33 @@
                 <!-- Sidebar -->
                 <div class="w-64 flex-shrink-0">
                     <div class="rounded-lg bg-white p-4 shadow">
-                        <h2 class="mb-4 text-lg font-semibold">Filter by Expertise</h2>
+                        <h2 class="mb-4 text-lg font-semibold">Filter</h2>
                         <form action="{{ route('tutors.index') }}" method="GET" id="filter-form">
-                            <div class="space-y-2">
+                            <div class="space-y-2 mb-3">
+                                <label for="subject-filter">Subjects</label>
                                 <select id="subject-filter" name="subject"
                                     class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                                     onchange="document.getElementById('filter-form').submit();">
                                     <option value="all" {{ old('subject', $subject) == 'all' ? 'selected' : '' }}>All
                                         Subjects</option>
                                     @foreach ($expertiseOptions as $expertise)
-                                        <option value="{{ $expertise }}"
-                                            {{ old('subject', $subject) == $expertise ? 'selected' : '' }}>
-                                            {{ ucfirst($expertise) }}
+                                        <option value="{{ $expertise->id }}"
+                                            {{ old('subject', $subject) == $expertise->id ? 'selected' : '' }}>
+                                            {{ ucfirst($expertise->subject_name) }}
                                         </option>
                                     @endforeach
+                                </select>
+                            </div>
+                            <div class="space-y-2">
+                                <label for="education-filter">Education Level</label>
+                                <select id="education-filter" name="education"
+                                    class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                                    onchange="document.getElementById('filter-form').submit();">
+                                    <option value="all" {{ old('education', $education) == 'all' ? 'selected' : '' }}>All Level</option>
+                                    <option {{ old('education', $education) == 'secondary' ? 'selected' : '' }} value="secondary">Secondary School</option>
+                                    <option {{ old('education', $education) == 'pre_u' ? 'selected' : '' }} value="pre_u">Pre-University</option>
+                                    <option {{ old('education', $education) == 'diploma' ? 'selected' : '' }} value="diploma">Diploma</option>
+                                    <option {{ old('education', $education) == 'degree' ? 'selected' : '' }} value="degree">Degree</option>
                                 </select>
                             </div>
                         </form>
@@ -51,11 +64,16 @@
                                             Name: {{ $tutor->name }}
                                         </h3>
                                         <p class="mt-1 text-sm text-gray-600">
-                                            Qualification: {{ $tutor->qualifications }}
+                                            <span class="text-gray-800 font-bold">Qualification:</span> {{ucfirst($tutor->qualifications) }}
                                         </p>
-                                        <p class="mt-1 text-sm text-gray-600">
-                                            Expertise: {{ $tutor->expertise }}
+                                        <p class="mt-1 text-sm text-gray-800  font-bold">
+                                            Expertise
                                         </p>
+                                        <ul class="list-disc mt-1 text-sm text-gray-600 ml-4">
+                                            @foreach ($tutor->expertise as $subject )
+                                                <li>{{$subject->subject_detail->subject_name}}</li>
+                                            @endforeach
+                                        </ul>
                                         <p class="mt-2 text-right font-semibold text-gray-800">
                                             RM{{ number_format($tutor->price_rate, 2) }}
                                         </p>

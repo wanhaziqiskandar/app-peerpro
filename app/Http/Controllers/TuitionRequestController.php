@@ -21,7 +21,6 @@ class TuitionRequestController extends Controller
         return view('tutee.requests.index', [
             'requests' => $requests,
         ]);
-
     }
 
     /**
@@ -38,9 +37,14 @@ class TuitionRequestController extends Controller
     public function store(Request $request)
     {
         $tutor = User::find($request['tutor_id']);
+        $subject=  $tutor->subjects()->where('subject_id', $request->expertise)->first();
+        // dd($assessment);
+
         $user = Auth::user();
         $request = $user->sentTuitionRequests()->create([
             'tutor_id' => $request['tutor_id'],
+            'expertise' => $request->expertise,
+            'assessment_id' => $subject->assessment_id,
             'date' => $request['date'],
             'timeslot' => $request['session'],
         ]);
@@ -49,7 +53,7 @@ class TuitionRequestController extends Controller
         //     $request->id,
         // ]));
         return view('tutee.assessments.index', [
-            'assessment' => $tutor->tutor_assessments,
+            'assessment' => $subject->assessment,
             'tuition_request' => $request,
         ]);
         // static::assessment($tutor->tutor_assessments,$request);
@@ -95,13 +99,13 @@ class TuitionRequestController extends Controller
             'answers' => $answers,
         ]);
 
-        return view('tutor.assessments.result', [
-            'tuition_request' => $tuition_request,
-            'score_percent' => $score_percent,
-            'score' => $score,
-            'total' => $total,
-        ]);
-        // return redirect(route('assessments.results'));
+        // return view('tutor.assessments.result', [
+        //     'tuition_request' => $tuition_request,
+        //     'score_percent' => $score_percent,
+        //     'score' => $score,
+        //     'total' => $total,
+        // ]);
+        return redirect(route('assessments.results', [ 'id' => $tuition_request->id ]));
     }
 
 
