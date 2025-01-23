@@ -81,8 +81,8 @@
                                                 </a>
 
                                                 <!-- Add Material Button -->
-                                                <a class="inline-flex items-center gap-x-2 rounded-lg border border-transparent bg-green-600 px-4 py-2 text-sm font-medium text-white shadow-md transition-all duration-200 ease-in-out hover:bg-green-700"
-                                                    href="#">
+                                                <button onclick="openModal('materialModal')"
+                                                    class="inline-flex items-center gap-x-2 rounded-lg border border-transparent bg-green-600 px-4 py-2 text-sm font-medium text-white shadow-md transition-all duration-200 ease-in-out hover:bg-green-700">
                                                     <svg class="size-4 shrink-0" xmlns="http://www.w3.org/2000/svg"
                                                         width="24" height="24" viewBox="0 0 24 24" fill="none"
                                                         stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -91,7 +91,7 @@
                                                         <path d="M12 5v14" />
                                                     </svg>
                                                     Add Material
-                                                </a>
+                                                </button>
                                             </div>
                                         </td>
                                     </tr>
@@ -103,4 +103,34 @@
             </div>
         </div>
     </div>
+
+    <!-- Add Material Modal -->
+    <div id="materialModal" class="fixed inset-0 flex hidden items-center justify-center bg-black bg-opacity-50">
+        <div class="w-1/3 rounded-lg bg-white p-6 shadow-lg">
+            <h3 class="mb-4 text-lg font-semibold">Add Material</h3>
+            <form action="#" method="POST">
+                @csrf
+                <div class="mb-4">
+                    <label for="materialName" class="block text-sm font-medium text-gray-700">Material Link</label>
+                    <input type="text" id="materialName" name="materialName"
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                </div>
+                <div class="flex justify-end gap-2">
+                    <button type="button" onclick="closeModal('materialModal')"
+                        class="rounded-lg bg-gray-500 px-4 py-2 text-white">Cancel</button>
+                    <button type="submit" class="rounded-lg bg-green-600 px-4 py-2 text-white">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.remove('hidden');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.add('hidden');
+        }
+    </script>
 </x-app-layout>
