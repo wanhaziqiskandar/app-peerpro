@@ -86,6 +86,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/chat/conversations/redirect/{user_id}', [ChatConversationController::class, 'redirect'])->name('chat.conversations.redirect');
 
 });
-Route::get('/chat/conversations/redirect/{user_id}', [ChatConversationController::class, 'redirect'])->name('chat.conversations.redirect');
+// Route::get('/chat/conversations/redirect/{user_id}', [ChatConversationController::class, 'redirect'])->name('chat.conversations.redirect');
 
 require __DIR__ . '/auth.php';
