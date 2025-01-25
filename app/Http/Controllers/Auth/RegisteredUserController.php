@@ -69,8 +69,8 @@ class RegisteredUserController extends Controller
             // 'email_verified_at' => now(), // Optional if email verification isn't used
         ]);
 
-        if($user->isTutor()){
-            foreach($request->expertise as $expertise){
+        if ($user->isTutor()) {
+            foreach ($request->expertise as $expertise) {
                 $user->subjects()->insert([
                     'tutor_id' => $user->id,
                     'subject_id' => $expertise,
@@ -82,9 +82,12 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        if($user->isTutor()){
-            return redirect(route('profile.edit'));
-        } else {
+        // if($user->isTutor()){
+        //     return redirect(route('profile.edit'));
+        // } else {
+        //     return redirect(route('dashboard', absolute: false));
+        // }
+        if ($user->isTutor()) {
             return redirect(route('dashboard', absolute: false));
         }
     }
