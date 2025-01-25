@@ -25,8 +25,11 @@
             {{ $chat_messages->links() }}
         </div>
     </div>
+</x-app-layout>
 
-    @section('scripts')
+
+
+{{-- @section('scripts')
         <script src="https://cdn.jsdelivr.net/npm/laravel-echo@1.13.3/dist/echo.js"></script>
 
         <script>
@@ -60,5 +63,4 @@
                     messagesList.scrollTop = messagesList.scrollHeight;
                 });
         </script>
-    @endsection
-</x-app-layout>
+    @endsection --}}
