@@ -70,7 +70,7 @@
                                             Expertise
                                         </p>
                                         <ul class="list-disc mt-1 text-sm text-gray-600 ml-4">
-                                            @foreach ($tutor->expertise as $subject )
+                                            @foreach ($tutor->expertise->whereNotNull('assessment_id') as $subject )
                                                 <li>{{$subject->subject_detail->subject_name}}</li>
                                             @endforeach
                                         </ul>

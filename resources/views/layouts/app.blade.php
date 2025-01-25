@@ -21,6 +21,18 @@
     <div class="min-h-screen bg-gray-100">
         @include('layouts.navigation')
 
+        @if (session('error'))
+        <div id="notification" class="fixed top-5 right-5 py-2 px-5 bg-white broder border-red-500 shadow rounded-lg">
+            <h1 class="text-red-500 font-semibold">Request Fail</h1>
+            <p class="text-sm">{{session('error')}}</p>
+        </div>
+        <script>
+            document.getElementById('notification').addEventListener('click', function(){
+                this.classList.add('hidden');
+            });
+        </script>
+        @endif
+
         <!-- Page Heading -->
         @isset($header)
             <header class="bg-white shadow dark:bg-gray-800">

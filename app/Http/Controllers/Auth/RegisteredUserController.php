@@ -66,7 +66,7 @@ class RegisteredUserController extends Controller
             'qualifications' => $request->qualifications,
             'price_rate' => $request->price_rate, // Store as decimal
             'password' => Hash::make($request->password),
-            'email_verified_at' => now(), // Optional if email verification isn't used
+            // 'email_verified_at' => now(), // Optional if email verification isn't used
         ]);
 
         if($user->isTutor()){

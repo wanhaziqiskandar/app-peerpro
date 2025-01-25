@@ -105,4 +105,15 @@ class TuitionAssessmentController extends Controller
         return response()->json(['message' => 'Question deleted successfully'], 200);
     }
 
+    public function add_material(Request $request, TutorSubject $subject)
+    {
+        // dd($subject);
+        $subject->timestamps = false;
+        $subject->update([
+            'material_link' => $request->material_link
+        ]);
+
+        return redirect(route('assessments.index'));
+    }
+
 }

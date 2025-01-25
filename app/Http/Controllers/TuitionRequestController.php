@@ -15,20 +15,10 @@ class TuitionRequestController extends Controller
      */
     public function index()
     {
-        // $tutors = User::where('role', 'tutor')->get();
         $requests = Auth::user()->isTutee() ? Auth::user()->sentTuitionRequests : Auth::user()->receivedTuitionRequests;
-        // dd($tutors); to view data without page
         return view('tutee.requests.index', [
             'requests' => $requests,
         ]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -36,29 +26,33 @@ class TuitionRequestController extends Controller
      */
     public function store(Request $request)
     {
+        $request_date = $request['date'];
+        $request_timeslot = $request['timeslot'];
         $tutor = User::find($request['tutor_id']);
         $subject=  $tutor->subjects()->where('subject_id', $request->expertise)->first();
         // dd($assessment);
 
         $user = Auth::user();
+        $not_available = $user->sentTuitionRequests()->firstWhere('date', $request_date)->where($request_timeslot)->exists();
+        if($not_available){
+            return redirect(route('requests.index'))->with('error', 'You have other session with the same date and timeslot selected.');
+        }
+
         $request = $user->sentTuitionRequests()->create([
             'tutor_id' => $request['tutor_id'],
             'expertise' => $request->expertise,
-            'assessment_id' => $subject->assessment_id,
+            'assessment_id' => $subject->assessment_id??null,
             'date' => $request['date'],
             'timeslot' => $request['session'],
         ]);
-        // return redirect(route('tutee.assessment', [
-        //     $tutor->tutor_assessments->id,
-        //     $request->id,
-        // ]));
-        return view('tutee.assessments.index', [
-            'assessment' => $subject->assessment,
-            'tuition_request' => $request,
-        ]);
-        // static::assessment($tutor->tutor_assessments,$request);
-
-
+        if($subject->assessment){
+            return view('tutee.assessments.index', [
+                'assessment' => $subject->assessment,
+                'tuition_request' => $request,
+            ]);
+        } else{
+            return redirect(route('requests.index'));
+        }
     }
 
     public static function assessment(TuitionAssessment $assessment,TuitionRequest $tuition_request)
@@ -92,19 +86,10 @@ class TuitionRequestController extends Controller
 
         $score_percent = ($score/$total)*100;
 
-        // dd($score_percent);
-
         $tuition_request->update([
             'score' => $score_percent,
             'answers' => $answers,
         ]);
-
-        // return view('tutor.assessments.result', [
-        //     'tuition_request' => $tuition_request,
-        //     'score_percent' => $score_percent,
-        //     'score' => $score,
-        //     'total' => $total,
-        // ]);
         return redirect(route('assessments.results', [ 'id' => $tuition_request->id ]));
     }
 
@@ -128,36 +113,5 @@ class TuitionRequestController extends Controller
             'score' => 0,
             'total' => 0,
         ]);
-    }
-    /**
-     * Display the specified resource.
-     */
-    public function show(TuitionRequest $tuitionRequest)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(TuitionRequest $tuitionRequest)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, TuitionRequest $tuitionRequest)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(TuitionRequest $tuitionRequest)
-    {
-        //
     }
 }

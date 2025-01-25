@@ -47,6 +47,8 @@ Route::get('/tutors', [TutorController::class, 'index'])->name('tutors.index');
 Route::get('/tutors/{id}', [TutorController::class, 'show'])->name('tutors.show');
 Route::get('/tutors/{subject_id}/create', [TutorController::class, 'create'])->name('tutors.create');
 Route::get('tutors/{id}/payments', [TuitionPaymentsController::class, 'index'])->name('payments.index');
+Route::get('/payment/success', [TuitionPaymentsController::class, 'payment_success'])->name('payments.success');
+Route::get('/payment/fail', [TuitionPaymentsController::class, 'payment_fail'])->name('payments.fail');
 // Route::post('/tutors', [TutorController::class, 'store'])->name('tutors.store');
 Route::view('tutee/{id}/edit', 'tutee.tutors.edit');
 
@@ -62,21 +64,13 @@ Route::post('/assessments/store', [TuitionAssessmentController::class, 'store'])
 Route::get('/assessments/{tuitionAssessment}', [TuitionAssessmentController::class, 'show'])->name('assessments.show');
 Route::get('/assessments/{tuitionAssessment}/edit', [TuitionAssessmentController::class, 'edit'])->name('assessments.edit');
 Route::put('/assessments/{tuitionAssessment}', [TuitionAssessmentController::class, 'update'])->name('assessments.update');
+Route::put('/material/{subject}', [TuitionAssessmentController::class, 'add_material'])->name('assessments.add_material');
 Route::delete('/assessments/{tuitionAssessment}', [TuitionAssessmentController::class, 'destroy'])->name('assessments.destroy');
 Route::delete('/assessments/{assessment}/questions/{index}', [TuitionAssessmentController::class, 'deleteQuestion']);
-// Route::view('/assessments/show', 'tutor.assessments.show');
 
-
-// Route::get('tutee/{id}/assessments/{request_id}', [TuitionRequestController::class, 'assessment'])->name('tutee.assessment');
 Route::post('tutee/assessment/submit', [TuitionRequestController::class, 'submit_assessment'])->name('tutee.submit_assessment');
-// Route::view('tutee/{id}/edit', 'tutee.tutors.edit');
 
 //score
-// Route::view('/scores', 'tutor.scores.index');
-// Route::get('/scores', [ScoreController::class, 'index'])->name('scores.index');
-// Route::get('/assessments/results', function () {
-//     return view('tutor.assessments.result'); // Adjusted to 'tutor.assessments.result'
-// })->name('assessments.results');
 Route::get('assessment/results/{id}', [TuitionRequestController::class, 'score_result'])->name('assessments.results');
 
 //chat

@@ -25,7 +25,7 @@
                                 required
                                 class="block w-full rounded-lg border-gray-200 px-3 py-2 shadow-sm focus:border-blue-500 focus:ring-blue-500">
                                 <option selected disabled>Choose a subject</option>
-                                @foreach ($tutor->expertise as $subject)
+                                @foreach ($tutor->expertise->whereNotNull('assessment_id') as $subject)
                                     <option value="{{$subject->subject_detail->id}}">{{$subject->subject_detail->subject_name}}</option>
                                 @endforeach
                             </select>

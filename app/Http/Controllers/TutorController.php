@@ -28,6 +28,7 @@ class TutorController extends Controller
         // Filter by expertise (if selected)
         if ($request->has('subject') && $request->subject !== 'all') {
             $query->whereHas('subjects', function(Builder $q) use ($request){
+                $q->whereNotNull('assessment_id');
                 $q->where('subject_id', $request->subject);
             });
         }

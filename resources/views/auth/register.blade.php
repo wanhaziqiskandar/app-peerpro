@@ -179,6 +179,7 @@
                     type="text" name="price_rate" :value="old('price_rate')" />
                 <x-input-error :messages="$errors->get('price_rate')" class="mt-2" />
             </div>
+        </div>
 
         <!-- Password -->
         <div>

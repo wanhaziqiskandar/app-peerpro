@@ -45,6 +45,12 @@
                                             class="inline-flex items-center justify-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700">
                                             View Assessment
                                         </a>
+                                    @elseif (Auth::user()->isTutee())
+                                        @if ($request->status == 'accepted')
+                                            <a href="{{route('payments.index', ['id' => $request->id])}}" class="inline-flex items-center justify-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700">
+                                                Pay
+                                            </a>
+                                        @endif
                                     @endif
 
                                     <!-- Pay and Chat Accepted or Rejected or Pending (Side by Side) -->
@@ -56,7 +62,7 @@
                                                 @method('post')
                                                 <input type="text" value="{{ $request->id }}"
                                                     name="tuition_request_id" hidden>
-                                                @if ($request->status == 'accepted')
+                                                @if ($request->status == 'paid')
                                                     @if ($request->payment)
                                                         <button type="submit" name="status" value="completed"
                                                             class="inline-flex items-center justify-center rounded-lg bg-yellow-600 px-7 py-2 text-sm font-semibold text-white hover:bg-yellow-700">

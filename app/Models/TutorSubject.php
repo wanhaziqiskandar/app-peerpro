@@ -11,6 +11,7 @@ class TutorSubject extends Model
         'tutor_id',
         'subject_id',
         'assessment_id',
+        'material_link',
     ];
 
     public function subject_detail()

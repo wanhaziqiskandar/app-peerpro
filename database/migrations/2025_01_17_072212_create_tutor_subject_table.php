@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('tutor_id');
             $table->unsignedBigInteger('subject_id');
             $table->unsignedBigInteger('assessment_id')->nullable();
+            $table->text('material_link')->nullable();
         });
     }
 
