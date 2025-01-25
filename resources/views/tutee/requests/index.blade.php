@@ -1,5 +1,34 @@
 <x-app-layout>
     <div class="min-h-screen bg-gray-50">
+
+        <!-- Tabs -->
+        <div class="mb-6 flex justify-center border-b border-gray-200">
+            <ul class="-mb-px flex flex-wrap text-center text-sm font-medium">
+                <li class="mr-2">
+                    <a href="#" class="inline-block border-b-2 border-blue-600 p-4 text-blue-600">Pending
+                        Requests</a>
+                </li>
+                <li class="relative mr-2">
+                    <a href="#"
+                        class="inline-block border-b-2 border-transparent p-4 text-gray-500 hover:border-blue-600 hover:text-blue-600">Scheduled
+                        Sessions</a>
+                    <ul
+                        class="absolute left-0 mt-1 hidden w-40 space-y-1 rounded-lg bg-white shadow-md group-hover:block">
+                        <li><a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Past</a>
+                        </li>
+                        <li><a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Today</a>
+                        </li>
+                        <li><a href="#"
+                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Upcoming</a></li>
+                    </ul>
+                </li>
+                <li class="mr-2">
+                    <a href="#"
+                        class="inline-block border-b-2 border-transparent p-4 text-gray-500 hover:border-blue-600 hover:text-blue-600">Completed
+                        Sessions</a>
+                </li>
+            </ul>
+        </div>
         <!-- Card Section -->
         <div class="mx-auto max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
             @if ($requests->isEmpty())
@@ -48,12 +77,15 @@
                                     @elseif (Auth::user()->isTutee())
                                         @if ($request->status != 'pending')
                                             @if ($request->status == 'accepted')
-                                                <a href="{{route('payments.index', ['id' => $request->id])}}" class="inline-flex items-center justify-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700">
+                                                <a href="{{ route('payments.index', ['id' => $request->id]) }}"
+                                                    class="inline-flex items-center justify-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700">
                                                     Pay
                                                 </a>
                                             @endif
-                                            @if($link = $request->tuitionAssessment->subject->material_link)
-                                                <a href="{{$link}}" target="_blank" class="bg-purple-600 px-4 py-2 rounded-full text-white mx-auto">View Material</a>
+                                            @if ($link = $request->tuitionAssessment->subject->material_link)
+                                                <a href="{{ $link }}" target="_blank"
+                                                    class="mx-auto rounded-full bg-purple-600 px-4 py-2 text-white">View
+                                                    Material</a>
                                             @endif
                                         @endif
                                     @endif
