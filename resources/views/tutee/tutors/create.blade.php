@@ -21,12 +21,12 @@
                             <label class="mt-2.5 text-sm text-gray-800">Expertise</label>
                         </div>
                         <div class="sm:col-span-9">
-                            <select name="expertise"
-                                required
+                            <select name="expertise" required
                                 class="block w-full rounded-lg border-gray-200 px-3 py-2 shadow-sm focus:border-blue-500 focus:ring-blue-500">
                                 <option selected disabled>Choose a subject</option>
                                 @foreach ($tutor->expertise->whereNotNull('assessment_id') as $subject)
-                                    <option value="{{$subject->subject_detail->id}}">{{$subject->subject_detail->subject_name}}</option>
+                                    <option value="{{ $subject->subject_detail->id }}">
+                                        {{ $subject->subject_detail->subject_name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -46,9 +46,9 @@
                             <label class="mt-2.5 text-sm text-gray-800">Date</label>
                         </div>
                         <div class="sm:col-span-9">
-                            <input
+                            <input id="datePicker"
                                 class="block w-full rounded-lg border-gray-200 px-3 py-2 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                                type="date" name="date" value="{{ date('Y-m-d') }}" min="{{ date('Y-m-d') }}">
+                                type="date" name="date" min="{{ date('Y-m-d') }}">
                         </div>
 
                         <!-- Timeslot -->
@@ -56,13 +56,12 @@
                             <label class="mt-2.5 text-sm text-gray-800">Timeslot</label>
                         </div>
                         <div class="sm:col-span-9">
-                            <select name="session"
-                                required
+                            <select id="timeslotSelect" name="session" required
                                 class="block w-full rounded-lg border-gray-200 px-3 py-2 shadow-sm focus:border-blue-500 focus:ring-blue-500">
                                 <option selected disabled>Choose a timeslot</option>
-                                <option value="morning">Morning (9:00 AM - 12:00 PM)</option>
-                                <option value="afternoon">Afternoon (1:00 PM - 4:00 PM)</option>
-                                <option value="evening">Evening (6:00 PM - 9:00 PM)</option>
+                                <option id="morning" value="morning">Morning (9:00 AM - 12:00 PM)</option>
+                                <option id="afternoon" value="afternoon">Afternoon (1:00 PM - 4:00 PM)</option>
+                                <option id="evening" value="evening">Evening (6:00 PM - 9:00 PM)</option>
                             </select>
                         </div>
                     </div>
@@ -80,4 +79,34 @@
         </div>
     </div>
     <!-- End Card Section -->
+
+    <script>
+        // Example booked timeslots coming from the backend
+        // window.onload = function() {
+        // $(document).ready(checkAvailability());
+        // console.log($('#datePicker'));
+        $('#datePicker').change(function() {
+            const currentTime = new Date();
+            const hour = currentTime.getHours();
+            const currentDate = currentTime.toLocaleDateString();
+            const selectedDate = new Date(document.getElementById('datePicker').value).toLocaleDateString();
+
+            console.log(selectedDate);
+            if (selectedDate == currentDate && hour >= 9) {
+                document.getElementById('morning').disabled = true;
+            } else {
+                document.getElementById('morning').disabled = false;
+            }
+            if (selectedDate == currentDate && hour >= 13) {
+                document.getElementById('afternoon').disabled = true;
+            } else {
+                document.getElementById('afternoon').disabled = false;
+            }
+            if (selectedDate == currentDate && hour >= 18) {
+                document.getElementById('evening').disabled = true;
+            } else {
+                document.getElementById('evening').disabled = false;
+            }
+        });
+    </script>
 </x-app-layout>
