@@ -40,7 +40,7 @@
                     <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
                 </svg>
                 <a href="mailto:{{ $tutor->email }}"
-                    class="text-lg text-gray-600 underline hover:text-gray-800 dark:text-gray-300">
+                    class="text-lg text-blue-700 underline hover:text-blue-800 dark:text-blue-300">
                     {{ $tutor->email }}
                 </a>
             </div>
