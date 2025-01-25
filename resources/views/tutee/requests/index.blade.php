@@ -30,23 +30,10 @@
             </ul>
         </div>
 
-        <!-- Tabs for Status within Scheduled Sessions (Visible Only for Tutors) -->
-        @if (request('tab') == 'scheduled' && Auth::user()->isTutor())
-            <div class="flex items-center justify-center space-x-4 rounded-lg bg-gray-50 p-2">
-                <!-- Default to 'accepted' status if no status is provided -->
-                <a href="{{ route('requests.index', ['tab' => 'scheduled', 'status' => 'accepted']) }}"
-                    class="{{ request('status', 'accepted') == 'accepted' ? 'bg-green-500 text-white border-2 border-green-600' : 'bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-green-100 dark:hover:bg-gray-600 hover:text-green-600' }} inline-flex transform items-center justify-center rounded-lg px-6 py-3 text-sm font-semibold transition-all duration-300 ease-in-out hover:scale-105">
-                    Accepted
-                </a>
-                <a href="{{ route('requests.index', ['tab' => 'scheduled', 'status' => 'paid']) }}"
-                    class="{{ request('status', 'accepted') == 'paid' ? 'bg-blue-500 text-white border-2 border-blue-600' : 'bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-blue-100 dark:hover:bg-gray-600 hover:text-blue-600' }} inline-flex transform items-center justify-center rounded-lg px-6 py-3 text-sm font-semibold transition-all duration-300 ease-in-out hover:scale-105">
-                    Paid
-                </a>
-            </div>
-        @endif
+
 
         <!-- Card Section -->
-        <div class="mx-auto max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+        <div class="mx-auto max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-2">
             @if ($requests->isEmpty())
                 <!-- Message for No Requests -->
                 <div class="flex items-center justify-center">
@@ -55,6 +42,20 @@
                     </p>
                 </div>
             @else
+                <!-- Tabs for Status within Scheduled Sessions (Visible Only for Tutors) -->
+                @if (request('tab') == 'scheduled' && Auth::user()->isTutor())
+                    <div class="mb-4 flex items-center justify-center space-x-4 rounded-lg bg-gray-50 ">
+                        <!-- Default to 'accepted' status if no status is provided -->
+                        <a href="{{ route('requests.index', ['tab' => 'scheduled', 'status' => 'accepted']) }}"
+                            class="{{ request('status', 'accepted') == 'accepted' ? 'bg-green-500 text-white border-2 border-green-600' : 'bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-green-100 dark:hover:bg-gray-600 hover:text-green-600' }} inline-flex transform items-center justify-center rounded-lg px-6 py-3 text-sm font-semibold transition-all duration-300 ease-in-out hover:scale-105">
+                            Accepted
+                        </a>
+                        <a href="{{ route('requests.index', ['tab' => 'scheduled', 'status' => 'paid']) }}"
+                            class="{{ request('status', 'accepted') == 'paid' ? 'bg-blue-500 text-white border-2 border-blue-600' : 'bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-blue-100 dark:hover:bg-gray-600 hover:text-blue-600' }} inline-flex transform items-center justify-center rounded-lg px-6 py-3 text-sm font-semibold transition-all duration-300 ease-in-out hover:scale-105">
+                            Paid
+                        </a>
+                    </div>
+                @endif
                 <!-- Grid Container for Cards -->
                 <div class="grid gap-3 sm:grid-cols-2 sm:gap-6 md:grid-cols-3 xl:grid-cols-4">
                     @foreach ($requests as $request)
