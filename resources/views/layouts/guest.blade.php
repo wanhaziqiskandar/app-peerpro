@@ -22,11 +22,13 @@
 
 <body class="font-sans text-gray-900 antialiased">
     <div class="flex min-h-screen flex-col items-center bg-slate-200 pt-6 sm:justify-center sm:pt-0">
-        <div>
+        <div class="flex items-center">
             <a href="/">
                 <x-application-logo class="h-20 w-20 fill-current text-gray-500" />
             </a>
+            <span class="ml-3 text-2xl font-semibold text-gray-700">PeerPro</span>
         </div>
+
 
         <div class="mt-6 w-full overflow-hidden bg-slate-50 px-6 py-4 shadow-md sm:max-w-md sm:rounded-lg">
             {{ $slot }}
