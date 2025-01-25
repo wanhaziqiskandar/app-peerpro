@@ -51,13 +51,13 @@ class TuitionPaymentsController extends Controller
         $sessionId = $request->get('session_id');
 
         if ($sessionId === null) {
-            return;
+            return view('checkout.failure');
         }
 
         $session = Cashier::stripe()->checkout->sessions->retrieve($sessionId);
 
         if ($session->payment_status !== 'paid') {
-            return;
+            return view('checkout.failure');
         }
 
         $tuition_payment_id = $session['metadata']['tuition_payment_id'] ?? null;
@@ -73,6 +73,6 @@ class TuitionPaymentsController extends Controller
     }
     public function payment_fail(Request $request)
     {
-        return view('checkout.failure');
+        return view('checkout.cancel');
     }
 }
