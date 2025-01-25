@@ -78,7 +78,7 @@ class TuitionRequest extends Model
 
     public function tuitionAssessment()
     {
-        return $this->belongsTo(TuitionAssessment::class);
+        return $this->hasOne(TuitionAssessment::class, 'id', 'assessment_id');
     }
 
     public function subject()

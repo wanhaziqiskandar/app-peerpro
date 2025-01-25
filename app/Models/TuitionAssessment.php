@@ -35,6 +35,11 @@ class TuitionAssessment extends Model
         return $this->belongsTo(User::class, 'tutor_id');
     }
 
+    public function subject()
+    {
+        return $this->belongsTo(TutorSubject::class, 'id', 'assessment_id');
+    }
+
     /**
      * Get the tuition request associated with the assessment.
      */

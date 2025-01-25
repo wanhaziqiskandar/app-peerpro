@@ -46,10 +46,15 @@
                                             View Assessment
                                         </a>
                                     @elseif (Auth::user()->isTutee())
-                                        @if ($request->status == 'accepted')
-                                            <a href="{{route('payments.index', ['id' => $request->id])}}" class="inline-flex items-center justify-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700">
-                                                Pay
-                                            </a>
+                                        @if ($request->status != 'pending')
+                                            @if ($request->status == 'accepted')
+                                                <a href="{{route('payments.index', ['id' => $request->id])}}" class="inline-flex items-center justify-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700">
+                                                    Pay
+                                                </a>
+                                            @endif
+                                            @if($link = $request->tuitionAssessment->subject->material_link)
+                                                <a href="{{$link}}" target="_blank" class="bg-purple-600 px-4 py-2 rounded-full text-white mx-auto">View Material</a>
+                                            @endif
                                         @endif
                                     @endif
 

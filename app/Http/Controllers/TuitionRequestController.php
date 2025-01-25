@@ -33,9 +33,9 @@ class TuitionRequestController extends Controller
         // dd($assessment);
 
         $user = Auth::user();
-        $not_available = $user->sentTuitionRequests()->firstWhere('date', $request_date)->where($request_timeslot)->exists();
+        $not_available = $user->sentTuitionRequests()->where('date', $request_date)->where($request_timeslot)->exists();
         if($not_available){
-            return redirect(route('requests.index'))->with('error', 'You have other session with the same date and timeslot selected.');
+            return redirect(route('requests.index'))->with('error', 'You have other session scheduled with the same date and timeslot selected.');
         }
 
         $request = $user->sentTuitionRequests()->create([
@@ -98,6 +98,15 @@ class TuitionRequestController extends Controller
     {
         // dd($request);
         $tuition_request = TuitionRequest::find($request['tuition_request_id']);
+        if($request->status == 'accepted'){
+            $not_available = Auth::user()->receivedTuitionRequests()
+                ->where('date', $tuition_request->date)
+                ->where('timeslot', $tuition_request->timeslot)
+                ->where('status', 'accepted');
+            if($not_available){
+                return redirect(route('requests.index'))->with('error', 'You have an existing session scheduled for this date and timeslot.');
+            }
+        }
         $tuition_request->update([
             'status' => $request['status'],
         ]);
