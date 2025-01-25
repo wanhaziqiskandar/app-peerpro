@@ -102,7 +102,8 @@ class TuitionRequestController extends Controller
             $not_available = Auth::user()->receivedTuitionRequests()
                 ->where('date', $tuition_request->date)
                 ->where('timeslot', $tuition_request->timeslot)
-                ->where('status', 'accepted');
+                ->where('status', 'accepted')
+                ->exists();
             if($not_available){
                 return redirect(route('requests.index'))->with('error', 'You have an existing session scheduled for this date and timeslot.');
             }
