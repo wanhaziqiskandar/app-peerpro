@@ -111,7 +111,7 @@
                                                     @method('put')
                                                     <div class="mb-4">
                                                         <label for="materialName" class="block text-md font-medium text-gray-700">Material Link</label>
-                                                        <p class="text-sm text-gray-400">Please enter the link to your Google Drive/OneDrive folder that contains your subject materials.</p>
+                                                        <p class="text-sm text-gray-400">Please enter the link to your Google Drive/OneDrive folder that contains your subject materials or any links related to the subjects.</p>
                                                         <input type="url" id="materialName" name="material_link" required
                                                             class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
                                                             value="{{$subject->material_link}}">
