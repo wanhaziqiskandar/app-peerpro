@@ -36,13 +36,13 @@
                                 <label class="form-label mt-3 text-sm text-gray-800">Select Question Type:</label>
                                 <div class="form-check">
                                     <input type="radio" name="questions[0][type]" value="multiple_choice"
-                                        class="form-check-input" checked onclick="toggleQuestionType(0)">
+                                        class="form-check-input" checked onclick="toggleQuestionType(0)" required>
                                     <label class="form-check-label text-gray-800" for="multiple_choice_0">Multiple
                                         Choice</label>
                                 </div>
                                 <div class="form-check">
                                     <input type="radio" name="questions[0][type]" value="true_false"
-                                        class="form-check-input" onclick="toggleQuestionType(0)">
+                                        class="form-check-input" onclick="toggleQuestionType(0)" required>
                                     <label class="form-check-label text-gray-800" for="true_false_0">True/False</label>
                                 </div>
 
@@ -55,7 +55,7 @@
                                                 class="form-control mb-2 rounded-md border p-3" placeholder="Answer 1"
                                                 required>
                                             <input type="radio" name="questions[0][correct_answer]" value="0"
-                                                class="form-check-input">
+                                                class="form-check-input" required>
                                             <label class="form-check-label text-gray-800">Correct Answer</label>
                                         </div>
                                         <div class="form-check mb-3">
@@ -63,7 +63,7 @@
                                                 class="form-control mb-2 rounded-md border p-3" placeholder="Answer 2"
                                                 required>
                                             <input type="radio" name="questions[0][correct_answer]" value="1"
-                                                class="form-check-input">
+                                                class="form-check-input" required>
                                             <label class="form-check-label text-gray-800">Correct Answer</label>
                                         </div>
                                         <div class="form-check mb-3">
@@ -71,7 +71,7 @@
                                                 class="form-control mb-2 rounded-md border p-3" placeholder="Answer 3"
                                                 required>
                                             <input type="radio" name="questions[0][correct_answer]" value="2"
-                                                class="form-check-input">
+                                                class="form-check-input" required>
                                             <label class="form-check-label text-gray-800">Correct Answer</label>
                                         </div>
                                         <div class="form-check mb-3">
@@ -79,7 +79,7 @@
                                                 class="form-control mb-2 rounded-md border p-3" placeholder="Answer 4"
                                                 required>
                                             <input type="radio" name="questions[0][correct_answer]" value="3"
-                                                class="form-check-input">
+                                                class="form-check-input" required>
                                             <label class="form-check-label text-gray-800">Correct Answer</label>
                                         </div>
                                     </div>
@@ -87,12 +87,12 @@
                                     <div class="true-false-answers" style="display: none;">
                                         <div class="form-check">
                                             <input type="radio" name="questions[0][true_false]" value="true"
-                                                class="form-check-input">
+                                                class="form-check-input" required>
                                             <label class="form-check-label text-gray-800">True</label>
                                         </div>
                                         <div class="form-check">
                                             <input type="radio" name="questions[0][true_false]" value="false"
-                                                class="form-check-input">
+                                                class="form-check-input" required>
                                             <label class="form-check-label text-gray-800">False</label>
                                         </div>
                                     </div>
@@ -138,11 +138,11 @@
 
                     <label class="form-label mt-3 text-sm text-gray-800">Select Question Type:</label>
                     <div class="form-check">
-                        <input type="radio" name="questions[${questionCount}][type]" value="multiple_choice" class="form-check-input" checked onclick="toggleQuestionType(${questionCount})">
+                        <input type="radio" name="questions[${questionCount}][type]" value="multiple_choice" class="form-check-input" checked onclick="toggleQuestionType(${questionCount})" required>
                         <label class="form-check-label text-gray-800">Multiple Choice</label>
                     </div>
                     <div class="form-check">
-                        <input type="radio" name="questions[${questionCount}][type]" value="true_false" class="form-check-input" onclick="toggleQuestionType(${questionCount})">
+                        <input type="radio" name="questions[${questionCount}][type]" value="true_false" class="form-check-input" onclick="toggleQuestionType(${questionCount})" required>
                         <label class="form-check-label text-gray-800">True/False</label>
                     </div>
 
@@ -151,33 +151,33 @@
                         <div class="multiple-choice-answers text-black">
                             <div class="form-check mb-3">
                                 <input type="text" name="questions[${questionCount}][answers][0]" class="form-control mb-2 p-3 border rounded-md" placeholder="Answer 1" required>
-                                <input type="radio" name="questions[${questionCount}][correct_answer]" value="0" class="form-check-input">
+                                <input type="radio" name="questions[${questionCount}][correct_answer]" value="0" class="form-check-input" required>
                                 <label class="form-check-label text-gray-800">Correct Answer</label>
                             </div>
                             <div class="form-check mb-3">
                                 <input type="text" name="questions[${questionCount}][answers][1]" class="form-control mb-2 p-3 border rounded-md" placeholder="Answer 2" required>
-                                <input type="radio" name="questions[${questionCount}][correct_answer]" value="1" class="form-check-input">
+                                <input type="radio" name="questions[${questionCount}][correct_answer]" value="1" class="form-check-input" required>
                                 <label class="form-check-label text-gray-800">Correct Answer</label>
                             </div>
                             <div class="form-check mb-3">
                                 <input type="text" name="questions[${questionCount}][answers][2]" class="form-control mb-2 p-3 border rounded-md" placeholder="Answer 3" required>
-                                <input type="radio" name="questions[${questionCount}][correct_answer]" value="2" class="form-check-input">
+                                <input type="radio" name="questions[${questionCount}][correct_answer]" value="2" class="form-check-input" required>
                                 <label class="form-check-label text-gray-800">Correct Answer</label>
                             </div>
                             <div class="form-check mb-3">
                                 <input type="text" name="questions[${questionCount}][answers][3]" class="form-control mb-2 p-3 border rounded-md" placeholder="Answer 4" required>
-                                <input type="radio" name="questions[${questionCount}][correct_answer]" value="3" class="form-check-input">
+                                <input type="radio" name="questions[${questionCount}][correct_answer]" value="3" class="form-check-input" required>
                                 <label class="form-check-label text-gray-800">Correct Answer</label>
                             </div>
                         </div>
 
                         <div class="true-false-answers" style="display: none;">
                             <div class="form-check">
-                                <input type="radio" name="questions[${questionCount}][true_false]" value="true" class="form-check-input">
+                                <input type="radio" name="questions[${questionCount}][true_false]" value="true" class="form-check-input" required>
                                 <label class="form-check-label text-gray-800">True</label>
                             </div>
                             <div class="form-check">
-                                <input type="radio" name="questions[${questionCount}][true_false]" value="false" class="form-check-input">
+                                <input type="radio" name="questions[${questionCount}][true_false]" value="false" class="form-check-input" required>
                                 <label class="form-check-label text-gray-800">False</label>
                             </div>
                         </div>

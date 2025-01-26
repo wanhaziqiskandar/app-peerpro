@@ -48,7 +48,7 @@
                         <div class="sm:col-span-9">
                             <input id="datePicker"
                                 class="block w-full rounded-lg border-gray-200 px-3 py-2 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                                type="date" name="date" min="{{ date('Y-m-d') }}">
+                                type="date" name="date" min="{{ date('Y-m-d') }}" required>
                         </div>
 
                         <!-- Timeslot -->

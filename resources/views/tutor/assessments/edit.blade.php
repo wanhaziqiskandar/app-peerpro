@@ -28,9 +28,7 @@
                                         class="form-label text-lg font-semibold text-gray-800">
                                         Question {{ $index + 1 }}:
                                     </label>
-                                    <button type="button"
-
-                                        onclick="deleteSingleQuestion( {{ $index }})"
+                                    <button type="button" onclick="deleteSingleQuestion( {{ $index }})"
                                         class="rounded-md bg-red-500 px-4 py-2 text-white transition duration-300 hover:bg-red-600">
                                         Delete Question
                                     </button>
@@ -40,7 +38,7 @@
                                     <!-- Question Input -->
                                     <input type="text" name="questions[{{ $index }}][question]"
                                         class="form-control mb-4 w-full rounded-md border border-gray-300 p-4"
-                                        value="{{ $question['question'] }}">
+                                        value="{{ $question['question'] }}" required>
 
                                     <!-- Question Type Selection -->
                                     <label class="form-label mt-3 text-lg font-medium text-gray-800">Select Question
@@ -50,7 +48,7 @@
                                             name="questions[{{ $index }}][type]" value="multiple_choice"
                                             class="form-check-input"
                                             {{ $question['type'] == 'multiple_choice' ? 'checked' : '' }}
-                                            onclick="toggleQuestionType({{ $index }})">
+                                            onclick="toggleQuestionType({{ $index }})" required>
                                         <label class="form-check-label text-gray-700"
                                             for="multiple_choice_{{ $index }}">Multiple Choice</label>
                                     </div>
@@ -59,7 +57,7 @@
                                             name="questions[{{ $index }}][type]" value="true_false"
                                             class="form-check-input"
                                             {{ $question['type'] == 'true_false' ? 'checked' : '' }}
-                                            onclick="toggleQuestionType({{ $index }})">
+                                            onclick="toggleQuestionType({{ $index }})" required>
                                         <label class="form-check-label text-gray-700"
                                             for="true_false_{{ $index }}">True/False</label>
                                     </div>
@@ -75,11 +73,12 @@
                                                         name="questions[{{ $index }}][answers][{{ $answerIndex }}]"
                                                         class="form-control mb-3 rounded-md border border-gray-300 p-4"
                                                         value="{{ $answer }}"
-                                                        placeholder="Answer {{ $answerIndex + 1 }}">
+                                                        placeholder="Answer {{ $answerIndex + 1 }}" required>
                                                     <input type="radio"
                                                         name="questions[{{ $index }}][correct_answer]"
                                                         value="{{ $answerIndex }}" class="form-check-input"
-                                                        {{isset($question['correct_answer']) && $question['correct_answer'] == $answerIndex ? 'checked' : '' }}>
+                                                        {{ isset($question['correct_answer']) && $question['correct_answer'] == $answerIndex ? 'checked' : '' }}
+                                                        required>
                                                     <label class="form-check-label text-gray-700"
                                                         for="answer{{ $answerIndex }}">Correct Answer</label>
                                                 </div>
@@ -93,7 +92,8 @@
                                                 <input type="radio" id="true-{{ $index }}"
                                                     name="questions[{{ $index }}][true_false]" value="true"
                                                     class="form-check-input"
-                                                    {{ isset($question['true_false']) && $question['true_false'] == 'true' ? 'checked' : '' }}>
+                                                    {{ isset($question['true_false']) && $question['true_false'] == 'true' ? 'checked' : '' }}
+                                                    required>
                                                 <label class="form-check-label text-gray-700"
                                                     for="true-{{ $index }}">True</label>
                                             </div>
@@ -101,7 +101,8 @@
                                                 <input type="radio" id="false-{{ $index }}"
                                                     name="questions[{{ $index }}][true_false]" value="false"
                                                     class="form-check-input"
-                                                    {{ isset($question['true_false']) && $question['true_false'] == 'false' ? 'checked' : '' }}>
+                                                    {{ isset($question['true_false']) && $question['true_false'] == 'false' ? 'checked' : '' }}
+                                                    required>
                                                 <label class="form-check-label text-gray-700"
                                                     for="false-{{ $index }}">False</label>
                                             </div>
@@ -181,19 +182,19 @@
                 </div>
                 <div class="card-body">
                     <input type="text" name="questions[${questionCount}][question]"
-                           class="form-control mb-4 p-4 w-full rounded-md border border-gray-300">
+                           class="form-control mb-4 p-4 w-full rounded-md border border-gray-300" required>
 
                     <label class="form-label mt-3 text-lg font-medium text-gray-800">Select Question Type:</label>
                     <div class="form-check">
                         <input type="radio" name="questions[${questionCount}][type]"
                                value="multiple_choice" class="form-check-input" checked
-                               onclick="toggleQuestionType(${questionCount})">
+                               onclick="toggleQuestionType(${questionCount})" required>
                         <label class="form-check-label text-gray-700">Multiple Choice</label>
                     </div>
                     <div class="form-check">
                         <input type="radio" name="questions[${questionCount}][type]"
                                value="true_false" class="form-check-input"
-                               onclick="toggleQuestionType(${questionCount})">
+                               onclick="toggleQuestionType(${questionCount})" required>
                         <label class="form-check-label text-gray-700">True/False</label>
                     </div>
 
@@ -202,26 +203,26 @@
                         <div class="multiple-choice-answers text-black">
                             <!-- Multiple Choice Answer Inputs -->
                             ${[0, 1, 2, 3].map(i => `
-                                                        <div class="form-check mb-4">
-                                                            <input type="text" name="questions[${questionCount}][answers][${i}]"
-                                                                   class="form-control mb-3 p-4 rounded-md border border-gray-300"
-                                                                   placeholder="Answer ${i + 1}">
-                                                            <input type="radio" name="questions[${questionCount}][correct_answer]"
-                                                                   value="${i}" class="form-check-input">
-                                                            <label class="form-check-label text-gray-700">Correct Answer</label>
-                                                        </div>
-                                                    `).join('')}
+                                                            <div class="form-check mb-4">
+                                                                <input type="text" name="questions[${questionCount}][answers][${i}]"
+                                                                       class="form-control mb-3 p-4 rounded-md border border-gray-300"
+                                                                       placeholder="Answer ${i + 1}" required>
+                                                                <input type="radio" name="questions[${questionCount}][correct_answer]"
+                                                                       value="${i}" class="form-check-input" required>
+                                                                <label class="form-check-label text-gray-700">Correct Answer</label>
+                                                            </div>
+                                                        `).join('')}
                         </div>
 
                         <div class="true-false-answers" style="display: none;">
                             <div class="form-check">
                                 <input type="radio" name="questions[${questionCount}][true_false]"
-                                       value="true" class="form-check-input">
+                                       value="true" class="form-check-input" required>
                                 <label class="form-check-label text-gray-700">True</label>
                             </div>
                             <div class="form-check">
                                 <input type="radio" name="questions[${questionCount}][true_false]"
-                                       value="false" class="form-check-input">
+                                       value="false" class="form-check-input" required>
                                 <label class="form-check-label text-gray-700">False</label>
                             </div>
                         </div>
@@ -232,48 +233,8 @@
             questionsContainer.appendChild(newQuestionBlock);
         }
 
-        function deleteQuestion(assessmentId, index) {
-            if (confirm('Are you sure you want to delete this question?')) {
-                fetch(`/assessments/${assessmentId}/questions/${index}`, {
-                        method: 'DELETE',
-                        headers: {
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json'
-                        }
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.message) {
-                            document.getElementById(`question-${index}`).remove();
-                            updateQuestionNumbers();
-                            alert('Question deleted successfully');
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        alert('Error deleting question');
-                    });
-            }
-        }
-
-        function deleteSingleQuestion(index){
+        function deleteSingleQuestion(index) {
             document.getElementById(`question-${index}`).remove();
-        }
-
-        function updateQuestionNumbers() {
-            const questionBlocks = document.querySelectorAll('.question-block');
-            questionBlocks.forEach((block, index) => {
-                const label = block.querySelector('label');
-                label.textContent = `Question ${index + 1}:`;
-
-                // Update input names and IDs
-                const inputs = block.querySelectorAll('input[name^="questions["]');
-                inputs.forEach(input => {
-                    const namePattern = /questions\[\d+\]/;
-                    input.name = input.name.replace(namePattern, `questions[${index}]`);
-                });
-            });
         }
     </script>
 </x-app-layout>
