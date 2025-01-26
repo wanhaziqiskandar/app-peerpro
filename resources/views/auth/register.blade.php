@@ -104,7 +104,7 @@
                 </div>
 
                 <div>
-                    <x-input-label for="expertise" :value="__('Expertise')" />
+                    <x-input-label for="expertise" :value="__('Subjects')" />
                     <select id="expertise" name="expertise[]"
                         class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
                         multiple>
@@ -168,7 +168,7 @@
 
                 <!-- Rate -->
                 <div>
-                    <x-input-label for="price_rate" :value="__('Rate')" />
+                    <x-input-label for="price_rate" :value="__('Rate/hour')" />
                     <x-text-input id="price_rate"
                         class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
                         type="text" name="price_rate" :value="old('price_rate')" />
