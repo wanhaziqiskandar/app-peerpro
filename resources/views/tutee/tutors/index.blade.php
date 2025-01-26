@@ -8,7 +8,7 @@
                     <div class="rounded-lg bg-white p-4 shadow">
                         <h2 class="mb-4 text-lg font-semibold">Filter</h2>
                         <form action="{{ route('tutors.index') }}" method="GET" id="filter-form">
-                            <div class="space-y-2 mb-3">
+                            <div class="mb-3 space-y-2">
                                 <label for="subject-filter">Subjects</label>
                                 <select id="subject-filter" name="subject"
                                     class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
@@ -28,11 +28,17 @@
                                 <select id="education-filter" name="education"
                                     class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                                     onchange="document.getElementById('filter-form').submit();">
-                                    <option value="all" {{ old('education', $education) == 'all' ? 'selected' : '' }}>All Level</option>
-                                    <option {{ old('education', $education) == 'secondary' ? 'selected' : '' }} value="secondary">Secondary School</option>
-                                    <option {{ old('education', $education) == 'pre_u' ? 'selected' : '' }} value="pre_u">Pre-University</option>
-                                    <option {{ old('education', $education) == 'diploma' ? 'selected' : '' }} value="diploma">Diploma</option>
-                                    <option {{ old('education', $education) == 'degree' ? 'selected' : '' }} value="degree">Degree</option>
+                                    <option value="all"
+                                        {{ old('education', $education) == 'all' ? 'selected' : '' }}>All Levels
+                                    </option>
+                                    <option {{ old('education', $education) == 'secondary' ? 'selected' : '' }}
+                                        value="secondary">Secondary School</option>
+                                    <option {{ old('education', $education) == 'pre_u' ? 'selected' : '' }}
+                                        value="pre_u">Pre-University</option>
+                                    <option {{ old('education', $education) == 'diploma' ? 'selected' : '' }}
+                                        value="diploma">Diploma</option>
+                                    <option {{ old('education', $education) == 'degree' ? 'selected' : '' }}
+                                        value="degree">Degree</option>
                                 </select>
                             </div>
                         </form>
@@ -57,27 +63,26 @@
                     <!-- Tutor Grid -->
                     <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
                         @forelse ($tutors as $tutor)
-                            <div class="rounded-lg bg-white p-6 shadow">
-                                <div class="flex items-center">
-                                    <div class="w-full">
-                                        <h3 class="text-lg font-bold text-gray-800">
-                                            Name: {{ $tutor->name }}
-                                        </h3>
-                                        <p class="mt-1 text-sm text-gray-600">
-                                            <span class="text-gray-800 font-bold">Qualification:</span> {{ucfirst($tutor->qualifications) }}
-                                        </p>
-                                        <p class="mt-1 text-sm text-gray-800  font-bold">
-                                            Expertise
-                                        </p>
-                                        <ul class="list-disc mt-1 text-sm text-gray-600 ml-4">
-                                            @foreach ($tutor->expertise->whereNotNull('assessment_id') as $subject )
-                                                <li>{{$subject->subject_detail->subject_name}}</li>
-                                            @endforeach
-                                        </ul>
-                                        <p class="mt-2 text-right font-semibold text-gray-800">
-                                            RM{{ number_format($tutor->price_rate, 2) }}
-                                        </p>
-                                    </div>
+                            <div class="flex h-full flex-col rounded-lg bg-white p-6 shadow">
+                                <div class="flex-1">
+                                    <h3 class="text-lg font-bold text-gray-800">
+                                        Name: {{ $tutor->name }}
+                                    </h3>
+                                    <p class="mt-1 text-sm text-gray-600">
+                                        <span class="font-bold text-gray-800">Qualification:</span>
+                                        {{ ucfirst($tutor->qualifications) }}
+                                    </p>
+                                    <p class="mt-1 text-sm font-bold text-gray-800">
+                                        Expertise
+                                    </p>
+                                    <ul class="ml-4 mt-1 list-disc text-sm text-gray-600">
+                                        @foreach ($tutor->expertise->whereNotNull('assessment_id') as $subject)
+                                            <li>{{ $subject->subject_detail->subject_name }}</li>
+                                        @endforeach
+                                    </ul>
+                                    <p class="mt-2 text-right font-semibold text-gray-800">
+                                        RM{{ number_format($tutor->price_rate, 2) }}/hour
+                                    </p>
                                 </div>
 
                                 <div class="mt-4 space-y-3">
