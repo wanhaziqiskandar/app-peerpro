@@ -62,21 +62,26 @@
                             <div class="p-4 md:p-7">
                                 <!-- Name -->
                                 <h3 class="mt-1 text-sm text-gray-600">
-                                    Name:
+                                    <span class="font-bold">Name:</span>
                                     {{ auth()->user()->isTutor() ? $request->tutee->name : $request->tutor->name }}
                                 </h3>
                                 <!-- Expertise -->
                                 <p class="mt-1 text-sm text-gray-600">
-                                    Subject: {{ $request->subject->subject_name }}
+                                    <span class="font-bold">Subject:</span> {{ $request->subject->subject_name }}
                                 </p>
                                 <!-- Timeslot -->
                                 <p class="mt-1 text-sm text-gray-600">
-                                    Timeslot: {{ $request->session }}
+                                    <span class="font-bold">Timeslot:</span> {{ $request->session }}
+                                </p>
+                                <!-- Date -->
+                                <p class="mt-1 text-sm text-gray-600">
+                                    <span class="font-bold">Date:</span> {{ $request->date }}
                                 </p>
                                 <!-- Rate -->
                                 <p class="mt-1 flex justify-end text-sm font-bold text-gray-600">
                                     RM{{ $request->tutor->price_rate }}/hour
                                 </p>
+
                                 <div class="my-2 flex flex-col justify-center text-center text-white">
                                     <!-- Status Label -->
                                     <span
