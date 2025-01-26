@@ -145,138 +145,201 @@
     </div>
     <script>
         function toggleQuestionType(index) {
-            const mcAnswers = document.querySelectorAll('.multiple-choice-answers');
-            const tfAnswers = document.querySelectorAll('.true-false-answers');
+    const mcAnswers = document.querySelectorAll('.multiple-choice-answers')[index];
+    const tfAnswers = document.querySelectorAll('.true-false-answers')[index];
+    const mcRadio = document.querySelector(`input[name="questions[${index}][type]"][value="multiple_choice"]`);
+
+    if (mcRadio.checked) {
+        mcAnswers.style.display = "block";
+        tfAnswers.style.display = "none";
+        
+        // Make multiple choice inputs required
+        mcAnswers.querySelectorAll('input[type="text"]').forEach(input => {
+            input.setAttribute('required', 'required');
+        });
+        mcAnswers.querySelectorAll('input[type="radio"][name$="[correct_answer]"]').forEach(input => {
+            input.setAttribute('required', 'required');
+        });
+
+        // Remove required from true/false inputs
+        tfAnswers.querySelectorAll('input[type="radio"]').forEach(input => {
+            input.removeAttribute('required');
+        });
+    } else {
+        mcAnswers.style.display = "none";
+        tfAnswers.style.display = "block";
+        
+        // Remove required from multiple choice inputs
+        mcAnswers.querySelectorAll('input[type="text"]').forEach(input => {
+            input.removeAttribute('required');
+        });
+        mcAnswers.querySelectorAll('input[type="radio"][name$="[correct_answer]"]').forEach(input => {
+            input.removeAttribute('required');
+        });
+
+        // Make true/false inputs required
+        tfAnswers.querySelectorAll('input[type="radio"]').forEach(input => {
+            input.setAttribute('required', 'required');
+        });
+    }
+}
+
+function addQuestion() {
+    let questionsContainer = document.getElementById('questions-container');
+    let questionCount = questionsContainer.getElementsByClassName('question-block').length;
+
+    let newQuestionBlock = document.createElement('div');
+    newQuestionBlock.classList.add('question-block', 'card', 'bg-gray-100', 'mb-6', 'p-6', 'rounded-xl', 'shadow-md');
+    newQuestionBlock.id = `question-${questionCount}`;
+
+    newQuestionBlock.innerHTML = `
+        <div class="flex justify-between items-center mb-4">
+            <label class="form-label text-lg font-semibold text-gray-800">
+                Question ${questionCount + 1}:
+            </label>
+            <button type="button"
+                    onclick="deleteSingleQuestion(${questionCount})"
+                    class="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition duration-300">
+                Delete Question
+            </button>
+        </div>
+        <div class="card-body">
+            <input type="text" name="questions[${questionCount}][question]"
+                   class="form-control mb-4 p-4 w-full rounded-md border border-gray-300"
+                   placeholder="Enter question" required>
+
+            <label class="form-label mt-3 text-lg font-medium text-gray-800">Select Question Type:</label>
+            <div class="form-check">
+                <input type="radio" name="questions[${questionCount}][type]"
+                       value="multiple_choice" class="form-check-input" checked
+                       onclick="toggleQuestionType(${questionCount})">
+                <label class="form-check-label text-gray-700">Multiple Choice</label>
+            </div>
+            <div class="form-check">
+                <input type="radio" name="questions[${questionCount}][type]"
+                       value="true_false" class="form-check-input"
+                       onclick="toggleQuestionType(${questionCount})">
+                <label class="form-check-label text-gray-700">True/False</label>
+            </div>
+
+            <div class="answers-section mt-6">
+                <label class="form-label text-lg font-medium text-gray-800">Answers:</label>
+                <div class="multiple-choice-answers text-black">
+                    ${[0, 1, 2, 3].map(i => `
+                        <div class="form-check mb-4">
+                            <input type="text" name="questions[${questionCount}][answers][${i}]"
+                                   class="form-control mb-3 p-4 rounded-md border border-gray-300"
+                                   placeholder="Answer ${i + 1}" required>
+                            <input type="radio" name="questions[${questionCount}][correct_answer]"
+                                   value="${i}" class="form-check-input" required>
+                            <label class="form-check-label text-gray-700">Correct Answer</label>
+                        </div>
+                    `).join('')}
+                </div>
+
+                <div class="true-false-answers" style="display: none;">
+                    <div class="form-check mb-3">
+                        <input type="radio" name="questions[${questionCount}][true_false]"
+                               value="true" class="form-check-input">
+                        <label class="form-check-label text-gray-700">True</label>
+                    </div>
+                    <div class="form-check mb-3">
+                        <input type="radio" name="questions[${questionCount}][true_false]"
+                               value="false" class="form-check-input">
+                        <label class="form-check-label text-gray-700">False</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+
+    questionsContainer.appendChild(newQuestionBlock);
+    toggleQuestionType(questionCount);
+}
+
+function deleteSingleQuestion(index) {
+    const questionBlocks = document.querySelectorAll('.question-block');
     
-            if (document.querySelector(`input[name="questions[${index}][type]"][value="multiple_choice"]`).checked) {
-                mcAnswers[index].style.display = "block";
-                tfAnswers[index].style.display = "none";
-            } else {
-                mcAnswers[index].style.display = "none";
-                tfAnswers[index].style.display = "block";
+    // Prevent deleting the last question
+    if (questionBlocks.length > 1) {
+        document.getElementById(`question-${index}`).remove();
+        updateQuestionNumbers();
+    } else {
+        alert('You must have at least one question in the assessment.');
+    }
+}
+
+function updateQuestionNumbers() {
+    const questionBlocks = document.querySelectorAll('.question-block');
+    questionBlocks.forEach((block, index) => {
+        const label = block.querySelector('label');
+        label.textContent = `Question ${index + 1}:`;
+
+        const inputs = block.querySelectorAll('input[name^="questions["]');
+        inputs.forEach(input => {
+            const namePattern = /questions\[\d+\]/;
+            input.name = input.name.replace(namePattern, `questions[${index}]`);
+        });
+
+        block.id = `question-${index}`;
+    });
+}
+
+// Form submission validation
+document.querySelector('form').onsubmit = function(event) {
+    const questions = document.querySelectorAll('.question-block');
+    
+    questions.forEach((questionBlock, index) => {
+        // Check question text
+        const questionText = questionBlock.querySelector('input[name^="questions["][name$="[question]"]');
+        if (!questionText.value.trim()) {
+            event.preventDefault();
+            alert(`Please enter a question text for Question ${index + 1}.`);
+            return false;
+        }
+
+        // Check question type
+        const questionType = questionBlock.querySelector('input[name^="questions["][name$="[type]"]:checked');
+        
+        // Validate based on question type
+        if (questionType.value === 'multiple_choice') {
+            // Check multiple choice answers
+            const answers = questionBlock.querySelectorAll('input[name^="questions[' + index + '][answers]"]');
+            const correctAnswer = questionBlock.querySelector('input[name^="questions[' + index + '][correct_answer]"]:checked');
+            
+            // Check if all answers are filled
+            const emptyAnswer = Array.from(answers).find(answer => !answer.value.trim());
+            if (emptyAnswer) {
+                event.preventDefault();
+                alert(`Please fill in all answer fields for Question ${index + 1}.`);
+                return false;
+            }
+
+            // Check if a correct answer is selected
+            if (!correctAnswer) {
+                event.preventDefault();
+                alert(`Please select a correct answer for Question ${index + 1}.`);
+                return false;
+            }
+        } else if (questionType.value === 'true_false') {
+            // Check true/false selection
+            const tfAnswer = questionBlock.querySelector('input[name^="questions[' + index + '][true_false]"]:checked');
+            if (!tfAnswer) {
+                event.preventDefault();
+                alert(`Please select True or False for Question ${index + 1}.`);
+                return false;
             }
         }
-    
-        function addQuestion() {
-            let questionsContainer = document.getElementById('questions-container');
-            let questionCount = questionsContainer.getElementsByClassName('question-block').length;
-    
-            let newQuestionBlock = document.createElement('div');
-            newQuestionBlock.classList.add('question-block', 'card', 'bg-gray-100', 'mb-6', 'p-6', 'rounded-xl', 'shadow-md');
-            newQuestionBlock.id = `question-${questionCount}`;
-    
-            newQuestionBlock.innerHTML = `
-                <div class="flex justify-between items-center mb-4">
-                    <label for="question-${questionCount + 1}" class="form-label text-lg font-semibold text-gray-800">
-                        Question ${questionCount + 1}:
-                    </label>
-                    <button type="button"
-                            onclick="deleteSingleQuestion(${questionCount})"
-                            class="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition duration-300">
-                        Delete Question
-                    </button>
-                </div>
-                <div class="card-body">
-                    <input type="text" name="questions[${questionCount}][question]"
-                           class="form-control mb-4 p-4 w-full rounded-md border border-gray-300">
-    
-                    <label class="form-label mt-3 text-lg font-medium text-gray-800">Select Question Type:</label>
-                    <div class="form-check">
-                        <input type="radio" name="questions[${questionCount}][type]"
-                               value="multiple_choice" class="form-check-input" checked
-                               onclick="toggleQuestionType(${questionCount})">
-                        <label class="form-check-label text-gray-700">Multiple Choice</label>
-                    </div>
-                    <div class="form-check">
-                        <input type="radio" name="questions[${questionCount}][type]"
-                               value="true_false" class="form-check-input"
-                               onclick="toggleQuestionType(${questionCount})">
-                        <label class="form-check-label text-gray-700">True/False</label>
-                    </div>
-    
-                    <div class="answers-section mt-6">
-                        <label class="form-label text-lg font-medium text-gray-800">Answers:</label>
-                        <div class="multiple-choice-answers text-black">
-                            ${[0, 1, 2, 3].map(i => `
-                                <div class="form-check mb-4">
-                                    <input type="text" name="questions[${questionCount}][answers][${i}]"
-                                           class="form-control mb-3 p-4 rounded-md border border-gray-300"
-                                           placeholder="Answer ${i + 1}">
-                                    <input type="radio" name="questions[${questionCount}][correct_answer]"
-                                           value="${i}" class="form-check-input">
-                                    <label class="form-check-label text-gray-700">Correct Answer</label>
-                                </div>
-                            `).join('')}
-                        </div>
-    
-                        <div class="true-false-answers" style="display: none;">
-                            <div class="form-check">
-                                <input type="radio" name="questions[${questionCount}][true_false]"
-                                       value="true" class="form-check-input">
-                                <label class="form-check-label text-gray-700">True</label>
-                            </div>
-                            <div class="form-check">
-                                <input type="radio" name="questions[${questionCount}][true_false]"
-                                       value="false" class="form-check-input">
-                                <label class="form-check-label text-gray-700">False</label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-    
-            questionsContainer.appendChild(newQuestionBlock);
-        }
-    
-        function deleteSingleQuestion(index) {
-            document.getElementById(`question-${index}`).remove();
-            updateQuestionNumbers();
-        }
-    
-        function updateQuestionNumbers() {
-            const questionBlocks = document.querySelectorAll('.question-block');
-            questionBlocks.forEach((block, index) => {
-                const label = block.querySelector('label');
-                label.textContent = `Question ${index + 1}:`;
-    
-                // Update input names and IDs
-                const inputs = block.querySelectorAll('input[name^="questions["]');
-                inputs.forEach(input => {
-                    const namePattern = /questions\[\d+\]/;
-                    input.name = input.name.replace(namePattern, `questions[${index}]`);
-                });
-            });
-        }
-    
-        function deleteAssessment(assessmentId) {
-            if (confirm('Are you sure you want to delete this assessment?')) {
-                fetch(`/assessments/${assessmentId}`, {
-                    method: 'DELETE',
-                    headers: {
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    }
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.message) {
-                        alert('Assessment deleted successfully');
-                        window.location.href = '/assessments';
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('Error deleting assessment');
-                });
-            }
-        }
-    
-        function updateAssessment() {
-            // Optionally, you can handle further updates or form validation here.
-            const form = document.querySelector('form');
-            form.submit();  // Trigger the form submission
-        }
+    });
+};
+
+// Initialize first question's type
+document.addEventListener('DOMContentLoaded', () => {
+    const questionBlocks = document.querySelectorAll('.question-block');
+    questionBlocks.forEach((block, index) => {
+        toggleQuestionType(index);
+    });
+});
     </script>
     
 </x-app-layout>
