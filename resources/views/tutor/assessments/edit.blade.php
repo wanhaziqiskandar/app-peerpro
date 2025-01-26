@@ -38,7 +38,7 @@
                                     <!-- Question Input -->
                                     <input type="text" name="questions[{{ $index }}][question]"
                                         class="form-control mb-4 w-full rounded-md border border-gray-300 p-4"
-                                        value="{{ $question['question'] }}">
+                                        value="{{ $question['question'] }}" required>
 
                                     <!-- Question Type Selection -->
                                     <label class="form-label mt-3 text-lg font-medium text-gray-800">Select Question
@@ -48,7 +48,7 @@
                                             name="questions[{{ $index }}][type]" value="multiple_choice"
                                             class="form-check-input"
                                             {{ $question['type'] == 'multiple_choice' ? 'checked' : '' }}
-                                            onclick="toggleQuestionType({{ $index }})">
+                                            onclick="toggleQuestionType({{ $index }})" required>
                                         <label class="form-check-label text-gray-700"
                                             for="multiple_choice_{{ $index }}">Multiple Choice</label>
                                     </div>
@@ -57,7 +57,7 @@
                                             name="questions[{{ $index }}][type]" value="true_false"
                                             class="form-check-input"
                                             {{ $question['type'] == 'true_false' ? 'checked' : '' }}
-                                            onclick="toggleQuestionType({{ $index }})">
+                                            onclick="toggleQuestionType({{ $index }})" required>
                                         <label class="form-check-label text-gray-700"
                                             for="true_false_{{ $index }}">True/False</label>
                                     </div>
@@ -73,11 +73,11 @@
                                                         name="questions[{{ $index }}][answers][{{ $answerIndex }}]"
                                                         class="form-control mb-3 rounded-md border border-gray-300 p-4"
                                                         value="{{ $answer }}"
-                                                        placeholder="Answer {{ $answerIndex + 1 }}">
+                                                        placeholder="Answer {{ $answerIndex + 1 }}" required>
                                                     <input type="radio"
                                                         name="questions[{{ $index }}][correct_answer]"
                                                         value="{{ $answerIndex }}" class="form-check-input"
-                                                        {{ isset($question['correct_answer']) && $question['correct_answer'] == $answerIndex ? 'checked' : '' }}>
+                                                        {{ isset($question['correct_answer']) && $question['correct_answer'] == $answerIndex ? 'checked' : '' }} required>
                                                     <label class="form-check-label text-gray-700"
                                                         for="answer{{ $answerIndex }}">Correct Answer</label>
                                                 </div>
@@ -91,7 +91,7 @@
                                                 <input type="radio" id="true-{{ $index }}"
                                                     name="questions[{{ $index }}][true_false]" value="true"
                                                     class="form-check-input"
-                                                    {{ isset($question['true_false']) && $question['true_false'] == 'true' ? 'checked' : '' }}>
+                                                    {{ isset($question['true_false']) && $question['true_false'] == 'true' ? 'checked' : '' }} required>
                                                 <label class="form-check-label text-gray-700"
                                                     for="true-{{ $index }}">True</label>
                                             </div>
@@ -99,7 +99,7 @@
                                                 <input type="radio" id="false-{{ $index }}"
                                                     name="questions[{{ $index }}][true_false]" value="false"
                                                     class="form-check-input"
-                                                    {{ isset($question['true_false']) && $question['true_false'] == 'false' ? 'checked' : '' }}>
+                                                    {{ isset($question['true_false']) && $question['true_false'] == 'false' ? 'checked' : '' }} required>
                                                 <label class="form-check-label text-gray-700"
                                                     for="false-{{ $index }}">False</label>
                                             </div>
@@ -175,14 +175,14 @@
                     </button>
                 </div>
                 <div class="card-body">
-                    <input type="text" name="questions[${questionCount}][question]" class="form-control mb-4 p-4 w-full rounded-md border border-gray-300">
+                    <input type="text" name="questions[${questionCount}][question]" class="form-control mb-4 p-4 w-full rounded-md border border-gray-300" required>
                     <label class="form-label mt-3 text-lg font-medium text-gray-800">Select Question Type:</label>
                     <div class="form-check">
-                        <input type="radio" name="questions[${questionCount}][type]" value="multiple_choice" class="form-check-input" checked onclick="toggleQuestionType(${questionCount})">
+                        <input type="radio" name="questions[${questionCount}][type]" value="multiple_choice" class="form-check-input" checked onclick="toggleQuestionType(${questionCount})" required>
                         <label class="form-check-label text-gray-700">Multiple Choice</label>
                     </div>
                     <div class="form-check">
-                        <input type="radio" name="questions[${questionCount}][type]" value="true_false" class="form-check-input" onclick="toggleQuestionType(${questionCount})">
+                        <input type="radio" name="questions[${questionCount}][type]" value="true_false" class="form-check-input" onclick="toggleQuestionType(${questionCount})" required>
                         <label class="form-check-label text-gray-700">True / False</label>
                     </div>
                     <div class="answers-section mt-6">
@@ -190,18 +190,18 @@
                         <div class="multiple-choice-answers text-black" style="display:block;">
                             ${[0, 1, 2, 3].map(i => `
                                 <div class="form-check mb-4">
-                                    <input type="text" name="questions[${questionCount}][answers][${i}]" class="form-control mb-3 p-4 rounded-md border border-gray-300" placeholder="Answer ${i + 1}">
-                                    <input type="radio" name="questions[${questionCount}][correct_answer]" value="${i}" class="form-check-input">
+                                    <input type="text" name="questions[${questionCount}][answers][${i}]" class="form-control mb-3 p-4 rounded-md border border-gray-300" placeholder="Answer ${i + 1}" required>
+                                    <input type="radio" name="questions[${questionCount}][correct_answer]" value="${i}" class="form-check-input" required>
                                     <label class="form-check-label text-gray-700">Correct Answer</label>
                                 </div>`).join('')}
                         </div>
                         <div class="true-false-answers" style="display:none;">
                             <div class="form-check">
-                                <input type="radio" name="questions[${questionCount}][true_false]" value="true" class="form-check-input">
+                                <input type="radio" name="questions[${questionCount}][true_false]" value="true" class="form-check-input" required>
                                 <label class="form-check-label text-gray-700">True</label>
                             </div>
                             <div class="form-check">
-                                <input type="radio" name="questions[${questionCount}][true_false]" value="false" class="form-check-input">
+                                <input type="radio" name="questions[${questionCount}][true_false]" value="false" class="form-check-input" required>
                                 <label class="form-check-label text-gray-700">False</label>
                             </div>
                         </div>
