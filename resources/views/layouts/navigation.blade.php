@@ -54,7 +54,7 @@
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button
-                            class="inline-flex items-center rounded-md border border-transparent bg-white px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out hover:text-gray-700 focus:outline-none dark:bg-gray-800 dark:text-gray-400 dark:hover:text-gray-300">
+                            class="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-3 py-2 text-sm font-medium leading-4 text-white transition duration-150 ease-in-out hover:bg-indigo-700 focus:outline-none dark:bg-indigo-800 dark:text-gray-200 dark:hover:bg-indigo-700">
                             <div>{{ Auth::user()->name }}</div>
 
                             <div class="ms-1">
@@ -69,7 +69,7 @@
                     </x-slot>
 
                     <x-slot name="content">
-                        <x-dropdown-link :href="route('profile.edit')" class="text-gray-800 dark:text-gray-200">
+                        <x-dropdown-link :href="route('profile.edit')" class="text-indigo-600 dark:text-indigo-300">
                             {{ __('Profile') }}
                         </x-dropdown-link>
 
@@ -79,13 +79,16 @@
 
                             <x-dropdown-link :href="route('logout')"
                                 onclick="event.preventDefault(); this.closest('form').submit();"
-                                class="text-gray-800 dark:text-gray-200">
+                                class="text-indigo-600 dark:text-indigo-300">
                                 {{ __('Log Out') }}
                             </x-dropdown-link>
                         </form>
                     </x-slot>
                 </x-dropdown>
             </div>
+
+
+
 
             <!-- Hamburger for mobile -->
             <div class="-me-2 flex items-center sm:hidden">

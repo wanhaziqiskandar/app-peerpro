@@ -79,19 +79,20 @@
                             </p>
                         </div>
                         <div
-                            class="transform rounded-xl bg-gradient-to-r from-pink-500 to-rose-600 p-8 text-center text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl">
+                            class="transform rounded-xl bg-gradient-to-r from-teal-400 to-cyan-500 p-8 text-center text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl">
                             <div class="mb-4">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto h-12 w-12" fill="none"
                                     viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M8 7V3m8 0v4M3 10h18M5 10a1 1 0 00-1 1v6a1 1 0 001 1h14a1 1 0 001-1v-6a1 1 0 00-1-1H5zm4 5h.01M9 15h6" />
+                                        d="M5 13l4 4L19 7" />
                                 </svg>
                             </div>
-                            <h3 class="mb-2 text-2xl font-semibold">{{ __('Set Your Schedule Availability') }}</h3>
+                            <h3 class="mb-2 text-2xl font-semibold">Achieve Your Goals</h3>
                             <p class="text-lg">
-                                {{ __("Let tutees know when you're available to teach and adjust your hours according to your convenience.") }}
+                                Stay motivated and track your progress with our goal-setting tools and resources.
                             </p>
                         </div>
+
                     </div>
                 </div>
             @else

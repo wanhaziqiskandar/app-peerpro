@@ -132,6 +132,9 @@
                             </option>
                         @endforeach
                     </select>
+                    <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+                        Hold <strong>Ctrl</strong> (or <strong>Cmd</strong> on Mac) and click to select multiple options.
+                    </p>
                     <x-input-error :messages="$errors->get('expertise')" class="mt-2" />
                 </div>
 

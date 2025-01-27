@@ -20,6 +20,13 @@
             <x-input-error :messages="$errors->get('name')" class="mt-2" />
         </div>
 
+        <!--Lastname-->
+        <div>
+            <x-input-label for="lastname" :value="__('Last Name')" />
+            <x-text-input id="lastname" class="mt-1 block w-full" type="text" name="lastname" value="{{ old('lastname', $user->lastname) }}" required />
+            <x-input-error :messages="$errors->get('lastname')" class="mt-2" />
+        </div>
+
         <!-- Email -->
         <div class="mt-4">
             <x-input-label for="email" :value="__('Email')" />

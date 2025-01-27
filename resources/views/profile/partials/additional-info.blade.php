@@ -31,6 +31,9 @@
             <x-input-error :messages="$errors->get('experience')" class="mt-2" />
         </div>
 
+        <!--Subjects-->
+        
+
         <!-- Account Number -->
         <div class="mt-4">
             <x-input-label for="account_number" :value="__('Account Number')" />
@@ -64,9 +67,9 @@
 
         <!-- Rate -->
         <div class="mt-4">
-            <x-input-label for="price_rate" :value="__('Rate')" />
+            <x-input-label for="price_rate" :value="__('Rate/hour')" />
             <x-text-input id="price_rate" class="mt-1 block w-full" type="text" name="price_rate"
-                value="{{ old('price_rate', $user->price_rate) }}" />
+                value="RM{{ old('price_rate', $user->price_rate) }}" />
             <x-input-error :messages="$errors->get('price_rate')" class="mt-2" />
         </div>
     @endif

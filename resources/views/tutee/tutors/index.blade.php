@@ -80,12 +80,13 @@
                                             <li>{{ $subject->subject_detail->subject_name }}</li>
                                         @endforeach
                                     </ul>
-                                    <p class="mt-2 text-right font-semibold text-gray-800">
-                                        RM{{ number_format($tutor->price_rate, 2) }}/hour
-                                    </p>
+
                                 </div>
 
                                 <div class="mt-4 space-y-3">
+                                    <p class="mt-2 text-right font-semibold text-gray-800">
+                                        RM{{ number_format($tutor->price_rate, 2) }}/hour
+                                    </p>
                                     <!-- Request and Chat Buttons -->
                                     <div class="flex gap-x-3">
                                         <a href="{{ route('tutors.create', $tutor->id) }}"
