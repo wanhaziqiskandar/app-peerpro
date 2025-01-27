@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\TuitionAssessment;
 use App\Models\TutorSubject;
 use App\Models\User;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -15,7 +16,8 @@ class TuitionAssessmentController extends Controller
      */
     public function index()
     {
-        $subjects = Auth::user()->subjects?? null;
+        $subjects = Auth::user()->active_subjects?? null;
+        // dd($subjects);
         // dd($tutors); to view data without page
         return view('tutor.assessments.index', [
             'subjects' => $subjects,
@@ -91,6 +93,11 @@ class TuitionAssessmentController extends Controller
     public function destroy(TuitionAssessment $tuitionAssessment)
     {
         // Delete the assessment
+        $subject = $tuitionAssessment->subject;
+        $subject->timestamps = false;
+        $subject->update([
+            'assessment_id' => null,
+        ]);
         $tuitionAssessment->delete();
 
         // Redirect to the assessments index

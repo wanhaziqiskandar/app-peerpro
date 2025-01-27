@@ -46,7 +46,7 @@
         @endif
 
         <!-- Card Section -->
-        <div class="mx-auto max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-2">
+        <div class="mx-auto max-w-[95rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-2">
             @if ($requests->isEmpty())
                 <!-- Message for No Requests -->
                 <div class="flex items-center justify-center">
@@ -56,10 +56,10 @@
                 </div>
             @else
                 <!-- Grid Container for Cards -->
-                <div class="grid gap-3 sm:grid-cols-2 sm:gap-6 md:grid-cols-3 xl:grid-cols-4">
+                <div class="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
                     @foreach ($requests as $request)
-                        <div class="group flex flex-col rounded-lg bg-white shadow-lg">
-                            <div class="p-4 md:p-7">
+                        <div class="group flex flex-col rounded-lg bg-white shadow-lg overflow-hidden">
+                            <div class="p-4 md:p-6">
                                 <!-- Name -->
                                 <h3 class="mt-1 text-sm text-gray-600">
                                     <span class="font-bold">Name:</span>
@@ -77,15 +77,15 @@
                                 <p class="mt-1 text-sm text-gray-600">
                                     <span class="font-bold">Date:</span> {{ $request->date }}
                                 </p>
+                                
                                 <!-- Rate -->
                                 <p class="mt-1 flex justify-end text-sm font-bold text-gray-600">
-                                    RM{{ $request->tutor->price_rate }}/hour
+                                    RM{{ number_format($request->tutor->price_rate, 2) }}/hour
                                 </p>
-
-                                <div class="my-2 flex flex-col justify-center text-center text-white">
-                                    <!-- Status Label -->
-                                    <span
-                                        class="@if ($request->status == 'rejected') bg-red-600 
+        
+                                <!-- Status Label -->
+                                <div class="my-2 flex justify-center text-center text-white">
+                                    <span class="@if ($request->status == 'rejected') bg-red-600 
                                         @elseif ($request->status == 'accepted') bg-green-600 
                                         @elseif ($request->status == 'pending') bg-yellow-600 
                                         @elseif ($request->status == 'paid') bg-blue-600 
@@ -93,7 +93,8 @@
                                         {{ ucfirst($request->status) }}
                                     </span>
                                 </div>
-
+        
+                                <!-- Action Buttons -->
                                 <div class="mt-4 flex flex-col items-center gap-y-3">
                                     <!-- View Assessment Button (visible for tutor before accepting) -->
                                     @if (Auth::user()->isTutor())
@@ -109,23 +110,21 @@
                                                     Pay
                                                 </a>
                                             @endif
-                                            @if ($link = $request->tuitionAssessment->subject->material_link)
+                                            @if ($request->status != 'rejected' && $link = $request->tuitionAssessment->subject->material_link)
                                                 <a href="{{ $link }}" target="_blank"
-                                                    class="inline-flex items-center justify-center rounded-lg bg-purple-600 px-7 py-2 text-white hover:bg-purple-700">View
-                                                    Material</a>
+                                                    class="inline-flex items-center justify-center rounded-lg bg-purple-600 px-7 py-2 text-white hover:bg-purple-700">View Material</a>
                                             @endif
                                         @endif
                                     @endif
-
-                                    <!-- Pay and Chat Accepted or Rejected or Pending (Side by Side) -->
-                                    <div class="flex gap-x-3">
-                                        @if (Auth::user()->isTutor())
-                                            <form action="{{ route('requests.update_status') }}" method="POST">
-                                                @csrf
-                                                @method('post')
-                                                <input type="text" value="{{ $request->id }} "
-                                                    name="tuition_request_id" hidden>
-                                                @if ($request->status == 'pending')
+        
+                                    <!-- Tutor Action Buttons (Accept, Reject, Mark as Complete) -->
+                                    @if (Auth::user()->isTutor())
+                                        <form action="{{ route('requests.update_status') }}" method="POST">
+                                            @csrf
+                                            @method('post')
+                                            <input type="text" value="{{ $request->id }}" name="tuition_request_id" hidden>
+                                            @if ($request->status == 'pending')
+                                                <div class="flex gap-x-3">
                                                     <button type="submit" name="status" value="accepted"
                                                         class="inline-flex items-center justify-center rounded-lg bg-green-600 px-7 py-2 text-sm font-semibold text-white hover:bg-green-700">
                                                         Accept
@@ -134,15 +133,15 @@
                                                         class="inline-flex items-center justify-center rounded-lg bg-red-600 px-7 py-2 text-sm font-semibold text-white hover:bg-red-700">
                                                         Reject
                                                     </button>
-                                                @elseif ($request->status == 'paid')
-                                                    <button type="submit" name="status" value="completed"
-                                                        class="inline-flex items-center justify-center rounded-lg bg-yellow-600 px-7 py-2 text-sm font-semibold text-white hover:bg-yellow-700">
-                                                        Mark as Complete
-                                                    </button>
-                                                @endif
-                                            </form>
-                                        @endif
-                                    </div>
+                                                </div>
+                                            @elseif ($request->status == 'paid')
+                                                <button type="submit" name="status" value="completed"
+                                                    class="inline-flex items-center justify-center rounded-lg bg-yellow-600 px-7 py-2 text-sm font-semibold text-white hover:bg-yellow-700">
+                                                    Mark as Complete
+                                                </button>
+                                            @endif
+                                        </form>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -150,5 +149,6 @@
                 </div>
             @endif
         </div>
+        
     </div>
 </x-app-layout>

@@ -12,6 +12,7 @@ class TutorSubject extends Model
         'subject_id',
         'assessment_id',
         'material_link',
+        'is_active',
     ];
 
     public function subject_detail()
@@ -20,6 +21,6 @@ class TutorSubject extends Model
     }
     public function assessment()
     {
-        return $this->hasOne(TuitionAssessment::class, 'id', 'assessment_id');
+        return $this->hasOne(TuitionAssessment::class, 'id', 'assessment_id')->withTrashed();
     }
 }

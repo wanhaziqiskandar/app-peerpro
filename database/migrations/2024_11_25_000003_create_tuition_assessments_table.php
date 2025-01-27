@@ -19,6 +19,7 @@ return new class extends Migration {
             // $table->string('expertise');
             $table->json('questions');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

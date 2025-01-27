@@ -76,7 +76,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function getExpertiseAttribute()
     {
-        $subjects = $this->subjects()->with('subject_detail')->get();
+        $subjects = $this->active_subjects()->with('subject_detail')->get();
         // $subject_list = implode(', ', $subjects->toArray());
 
         // return $subject_list;
@@ -96,7 +96,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function tutor_assessments()
     {
-        return $this->hasOne(TuitionAssessment::class, 'tutor_id', 'id');
+        return $this->hasOne(TuitionAssessment::class, 'tutor_id', 'id')->withTrashed();
     }
 
     public function chat_conversations(): BelongsToMany
@@ -112,5 +112,10 @@ class User extends Authenticatable implements MustVerifyEmail
     public function subjects():HasMany
     {
         return $this->hasMany(TutorSubject::class, 'tutor_id', 'id');
+    }
+
+    public function active_subjects():HasMany
+    {
+        return $this->hasMany(TutorSubject::class, 'tutor_id', 'id')->where('is_active', 1);
     }
 }

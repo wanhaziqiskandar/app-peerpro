@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\TutorSubject;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
@@ -45,7 +46,29 @@ class ProfileController extends Controller
 
         // Only validate the fields that are present in the request
         $validatedData = $request->validate(array_filter($rules, fn($rule, $key) => $request->has($key), ARRAY_FILTER_USE_BOTH));
-
+        // dd($request->expertise);
+        if($request->expertise){
+            foreach($request->expertise as $subject){
+                if(!$user->subjects()->where('subject_id', $subject)->exists()){
+                    TutorSubject::insert([
+                        'tutor_id' => $user->id,
+                        'subject_id' => $subject,
+                    ]);
+                } elseif($inactive_subject = $user->subjects()->where('subject_id', $subject)->where('is_active',0)->first()){
+                    $inactive_subject->timestamps = false;
+                    $inactive_subject->update([
+                        'is_active' => 1,
+                    ]);
+                }
+            }
+            $remove_subjects = $user->subjects()->whereNotIn('subject_id', $request->expertise)->get();
+            // dd($remove_subjects);
+            foreach($remove_subjects as $subject){
+                $subject->timestamps=false;
+                $subject->update(['is_active'=> 0]);
+                // dd($subject);
+            }
+        }
         // Update the user with the validated data
         $user->update($validatedData);
 

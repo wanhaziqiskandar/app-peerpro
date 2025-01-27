@@ -65,11 +65,50 @@
             <x-input-error :messages="$errors->get('qualifications')" class="mt-2" />
         </div>
 
+        <div>
+            <x-input-label for="expertise" :value="__('Subjects')" />
+            <select id="expertise" name="expertise[]"
+                class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
+                multiple>
+                @php
+                    $Subject = 'App\Models\Subject';
+                    $subjects = $Subject::all();
+                @endphp
+                @foreach ($subjects as $subject)
+                    @php
+                        switch ($subject->subject_level) {
+                            case 'secondary':
+                                $level = 'Secondary';
+                                break;
+                            case 'pre_u':
+                                $level = 'Pre-University';
+                                break;
+                            case 'diploma':
+                                $level = 'Diploma';
+                                break;
+                            case 'degree':
+                                $level = 'Degree';
+                                break;
+                            default:
+                                $level = '';
+                        }
+                    @endphp
+                    <option value="{{ $subject->id }}" @if (in_array($subject->id,$user->active_subjects()->pluck('id')->toArray())) selected @endif>
+                        {{ $subject->subject_name }} ({{ $level }})
+                    </option>
+                @endforeach
+            </select>
+            <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+                Hold <strong>Ctrl</strong> (or <strong>Cmd</strong> on Mac) and click to select multiple options.
+            </p>
+            <x-input-error :messages="$errors->get('expertise')" class="mt-2" />
+        </div>
+
         <!-- Rate -->
         <div class="mt-4">
             <x-input-label for="price_rate" :value="__('Rate/hour')" />
             <x-text-input id="price_rate" class="mt-1 block w-full" type="text" name="price_rate"
-                value="RM{{ old('price_rate', $user->price_rate) }}" />
+                value="{{ old('price_rate', $user->price_rate) }}" />
             <x-input-error :messages="$errors->get('price_rate')" class="mt-2" />
         </div>
     @endif

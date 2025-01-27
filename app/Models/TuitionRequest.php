@@ -78,7 +78,7 @@ class TuitionRequest extends Model
 
     public function tuitionAssessment()
     {
-        return $this->hasOne(TuitionAssessment::class, 'id', 'assessment_id');
+        return $this->hasOne(TuitionAssessment::class, 'id', 'assessment_id')->withTrashed();
     }
 
     public function subject()

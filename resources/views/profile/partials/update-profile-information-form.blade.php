@@ -40,11 +40,14 @@
             <div class="mt-1 space-x-6">
                 <label class="inline-flex items-center text-gray-700">
                     <input type="radio" id="gender" name="gender" value="male" class="form-radio"
+                    {{$user->gender == 'male' ? 'checked' :''}}
                         required />
                     <span class="ml-2">{{ __('Male') }}</span>
                 </label>
                 <label class="inline-flex items-center text-gray-700">
                     <input type="radio" id="gender" name="gender" value="female" class="form-radio"
+                    {{$user->gender == 'female' ? 'checked' :''}}
+
                         required />
                     <span class="ml-2">{{ __('Female') }}</span>
                 </label>

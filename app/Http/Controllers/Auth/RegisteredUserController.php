@@ -61,7 +61,7 @@ class RegisteredUserController extends Controller
             'phone_number' => $request->phone_number,
             'role' => $request->role,
             'experience' => $request->experience,
-            'expertise' => $request->expertise,
+            // 'expertise' => $request->expertise,
             'account_number' => $request->account_number,
             'qualifications' => $request->qualifications,
             'price_rate' => $request->price_rate, // Store as decimal
@@ -87,11 +87,13 @@ class RegisteredUserController extends Controller
         // } else {
         //     return redirect(route('dashboard', absolute: false));
         // }
-        if ($user->isTutor()) {
-            return redirect()->to(route('dashboard', [], false));
-        } else {
-            return redirect()->route('dashboard');
-        }
+        // if ($user->isTutor()) {
+        //     return redirect()->to(route('dashboard', [], false));
+        // } else {
+        //     return redirect()->route('dashboard');
+        // }
+        return redirect()->route('dashboard');
+
 
     }
 }

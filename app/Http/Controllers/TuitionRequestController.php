@@ -79,7 +79,7 @@ class TuitionRequestController extends Controller
         $request_date = $request['date'];
         $request_timeslot = $request['session'];
         $tutor = User::find($request['tutor_id']);
-        $subject = $tutor->subjects()->where('subject_id', $request->expertise)->first();
+        $subject = $tutor->active_subjects()->where('subject_id', $request->expertise)->first();
 
         // Check if the specific timeslot is already booked
         $timeslot_booked = TuitionRequest::where('date', $request_date)
