@@ -73,7 +73,6 @@ class TuitionRequestController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-
     public function store(Request $request)
     {
         $request_date = $request['date'];
@@ -81,16 +80,29 @@ class TuitionRequestController extends Controller
         $tutor = User::find($request['tutor_id']);
         $subject = $tutor->active_subjects()->where('subject_id', $request->expertise)->first();
 
-        // Check if the specific timeslot is already booked
-        $timeslot_booked = TuitionRequest::where('date', $request_date)
+        // Check if the tutor's timeslot is already booked
+        $tutor_timeslot_booked = TuitionRequest::where('date', $request_date)
             ->where('tutor_id', $tutor->id)
             ->where('timeslot', $request_timeslot)
             ->whereIn('status', ['accepted', 'paid'])
             ->exists();
 
-        if ($timeslot_booked) {
+        // Check if tutee already has a booking at this time
+        $tutee_timeslot_booked = Auth::user()->sentTuitionRequests()
+            ->where('date', $request_date)
+            ->where('timeslot', $request_timeslot)
+            ->whereIn('status', ['accepted', 'paid'])
+            ->exists();
+
+        if ($tutor_timeslot_booked) {
             return redirect()->back()
-                ->with('error', 'This timeslot has already been booked. Please select a different time.')
+                ->with('error', 'This timeslot is already booked with the tutor. Please select a different time.')
+                ->withInput();
+        }
+
+        if ($tutee_timeslot_booked) {
+            return redirect()->back()
+                ->with('error', 'You already have a session scheduled at this time. Please select a different time.')
                 ->withInput();
         }
 
@@ -112,6 +124,71 @@ class TuitionRequestController extends Controller
 
         return redirect(route('requests.index'));
     }
+
+    public function checkAvailability(Request $request)
+    {
+        $date = $request->input('date');
+        $tutor_id = $request->input('tutor_id');
+
+        // Get tutor's booked timeslots
+        $tutorBookedSlots = TuitionRequest::where('date', $date)
+            ->where('tutor_id', $tutor_id)
+            ->whereIn('status', ['accepted', 'paid'])
+            ->pluck('timeslot')
+            ->toArray();
+
+        // Get tutee's booked timeslots
+        $tuteeBookedSlots = Auth::user()->sentTuitionRequests()
+            ->where('date', $date)
+            ->whereIn('status', ['accepted', 'paid'])
+            ->pluck('timeslot')
+            ->toArray();
+
+        // Combine both tutor and tutee booked slots
+        $bookedSlots = array_unique(array_merge($tutorBookedSlots, $tuteeBookedSlots));
+
+        return response()->json($bookedSlots);
+    }
+
+
+    // public function store(Request $request)
+    // {
+    //     $request_date = $request['date'];
+    //     $request_timeslot = $request['session'];
+    //     $tutor = User::find($request['tutor_id']);
+    //     $subject = $tutor->active_subjects()->where('subject_id', $request->expertise)->first();
+
+    //     // Check if the specific timeslot is already booked
+    //     $timeslot_booked = TuitionRequest::where('date', $request_date)
+    //         ->where('tutor_id', $tutor->id)
+    //         ->where('timeslot', $request_timeslot)
+    //         ->whereIn('status', ['accepted', 'paid'])
+    //         ->exists();
+
+    //     if ($timeslot_booked) {
+    //         return redirect()->back()
+    //             ->with('error', 'This timeslot has already been booked. Please select a different time.')
+    //             ->withInput();
+    //     }
+
+    //     // Create the tuition request if timeslot is available
+    //     $request = Auth::user()->sentTuitionRequests()->create([
+    //         'tutor_id' => $request['tutor_id'],
+    //         'expertise' => $request->expertise,
+    //         'assessment_id' => $subject->assessment_id ?? null,
+    //         'date' => $request_date,
+    //         'timeslot' => $request_timeslot,
+    //     ]);
+
+    //     if ($subject->assessment) {
+    //         return view('tutee.assessments.index', [
+    //             'assessment' => $subject->assessment,
+    //             'tuition_request' => $request,
+    //         ]);
+    //     }
+
+    //     return redirect(route('requests.index'));
+    // }
 
     public static function assessment(TuitionAssessment $assessment, TuitionRequest $tuition_request)
     {
@@ -183,20 +260,5 @@ class TuitionRequestController extends Controller
             'score' => 0,
             'total' => 0,
         ]);
-    }
-
-    public function checkAvailability(Request $request)
-    {
-        $date = $request->input('date');
-        $tutor_id = $request->input('tutor_id');
-
-        // Get only the booked timeslots for this tutor on this date
-        $bookedSlots = TuitionRequest::where('date', $date)
-            ->where('tutor_id', $tutor_id)
-            ->whereIn('status', ['accepted', 'paid'])
-            ->pluck('timeslot')
-            ->toArray();
-
-        return response()->json($bookedSlots);
     }
 }

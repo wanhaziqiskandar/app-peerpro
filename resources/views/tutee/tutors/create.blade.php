@@ -31,16 +31,6 @@
                             </select>
                         </div>
 
-                        {{-- <!-- Requirement -->
-                        <div class="sm:col-span-3">
-                            <label class="mt-2.5 text-sm text-gray-800">Additional Notes (Optional)</label>
-                        </div>
-                        <div class="max-w-sm space-y-2 sm:col-span-9">
-                            <textarea name="additional_request"
-                                class="block w-full rounded-lg border-transparent bg-gray-100 px-4 py-3 text-sm focus:border-blue-500 focus:ring-blue-500"
-                                rows="3" placeholder="Write any additional requests here..."></textarea>
-                        </div> --}}
-
                         <!-- Date -->
                         <div class="sm:col-span-3">
                             <label class="mt-2.5 text-sm text-gray-800">Date</label>
@@ -131,9 +121,12 @@
                             // If current selected timeslot is booked, show error
                             const currentTimeslot = $('#timeslotSelect').val();
                             if (currentTimeslot && bookedSlots.includes(currentTimeslot)) {
+                                let errorMessage = 'This timeslot is not available. ';
+                                errorMessage +=
+                                    'You either have another session scheduled or the tutor is already booked at this time.';
+
                                 $('#timeslotError')
-                                    .text(
-                                        'This timeslot is already booked. Please select another time.')
+                                    .text(errorMessage)
                                     .removeClass('hidden');
                                 $('button[type="submit"]').prop('disabled', true);
                             }
