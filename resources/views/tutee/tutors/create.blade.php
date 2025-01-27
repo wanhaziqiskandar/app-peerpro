@@ -31,7 +31,7 @@
                             </select>
                         </div>
 
-                        <!-- Requirement -->
+                        {{-- <!-- Requirement -->
                         <div class="sm:col-span-3">
                             <label class="mt-2.5 text-sm text-gray-800">Additional Notes (Optional)</label>
                         </div>
@@ -39,7 +39,7 @@
                             <textarea name="additional_request"
                                 class="block w-full rounded-lg border-transparent bg-gray-100 px-4 py-3 text-sm focus:border-blue-500 focus:ring-blue-500"
                                 rows="3" placeholder="Write any additional requests here..."></textarea>
-                        </div>
+                        </div> --}}
 
                         <!-- Date -->
                         <div class="sm:col-span-3">
@@ -80,7 +80,106 @@
     </div>
     <!-- End Card Section -->
 
+
     <script>
+        $(document).ready(function() {
+            // Add error message container
+            $('#timeslotSelect').after('<div id="timeslotError" class="mt-2 text-sm text-red-600 hidden"></div>');
+
+            // Function to check time restrictions for current day
+            function checkTimeRestrictions() {
+                const currentTime = new Date();
+                const hour = currentTime.getHours();
+                const currentDate = currentTime.toLocaleDateString();
+                const selectedDate = new Date(document.getElementById('datePicker').value).toLocaleDateString();
+
+                // Reset all slots first
+                ['morning', 'afternoon', 'evening'].forEach(slot => {
+                    document.getElementById(slot).disabled = false;
+                });
+
+                // Apply time restrictions only for current day
+                if (selectedDate === currentDate) {
+                    if (hour >= 9) document.getElementById('morning').disabled = true;
+                    if (hour >= 13) document.getElementById('afternoon').disabled = true;
+                    if (hour >= 18) document.getElementById('evening').disabled = true;
+                }
+            }
+
+            // Function to check booked timeslots
+            function checkBookedTimeslots() {
+                const selectedDate = $('#datePicker').val();
+                const tutorId = $('input[name="tutor_id"]').val();
+
+                if (selectedDate) {
+                    $.ajax({
+                        url: '/check-availability',
+                        method: 'GET',
+                        data: {
+                            date: selectedDate,
+                            tutor_id: tutorId
+                        },
+                        success: function(bookedSlots) {
+                            // Reset time restrictions first
+                            checkTimeRestrictions();
+
+                            // Then disable booked slots
+                            bookedSlots.forEach(slot => {
+                                document.getElementById(slot).disabled = true;
+                            });
+
+                            // If current selected timeslot is booked, show error
+                            const currentTimeslot = $('#timeslotSelect').val();
+                            if (currentTimeslot && bookedSlots.includes(currentTimeslot)) {
+                                $('#timeslotError')
+                                    .text(
+                                        'This timeslot is already booked. Please select another time.')
+                                    .removeClass('hidden');
+                                $('button[type="submit"]').prop('disabled', true);
+                            }
+                        }
+                    });
+                }
+            }
+
+            // Check availability when date changes
+            $('#datePicker').change(function() {
+                $('#timeslotError').addClass('hidden');
+                $('button[type="submit"]').prop('disabled', false);
+                checkBookedTimeslots();
+            });
+
+            // Validate when timeslot is selected
+            $('#timeslotSelect').change(function() {
+                const selectedTimeslot = $(this).val();
+
+                if (selectedTimeslot) {
+                    $('#timeslotError').addClass('hidden');
+                    $('button[type="submit"]').prop('disabled', false);
+                    checkBookedTimeslots();
+                }
+            });
+
+            // Form submission validation
+            $('form').submit(function(e) {
+                const selectedTimeslot = $('#timeslotSelect').val();
+
+                if (!selectedTimeslot) {
+                    e.preventDefault();
+                    $('#timeslotError')
+                        .text('Please select a timeslot')
+                        .removeClass('hidden');
+                    return false;
+                }
+
+                if ($('#timeslotError').is(':visible')) {
+                    e.preventDefault();
+                    return false;
+                }
+            });
+        });
+    </script>
+    {{-- <script>
         // Example booked timeslots coming from the backend
         // window.onload = function() {
         // $(document).ready(checkAvailability());
@@ -108,5 +207,5 @@
                 document.getElementById('evening').disabled = false;
             }
         });
-    </script>
+    </script> --}}
 </x-app-layout>

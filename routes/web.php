@@ -41,6 +41,7 @@ Route::get('/requests', [TuitionRequestController::class, 'index'])->name('reque
 Route::post('/requests/tutor/{id}', [TuitionRequestController::class, 'store'])->name('requests.store');
 Route::post('/request/update/status', [TuitionRequestController::class, 'update_status'])->name('requests.update_status');
 Route::post('requests/payment/submit', [TuitionPaymentsController::class, 'submit'])->name('payment.submit');
+Route::get('/check-availability', [TuitionRequestController::class, 'checkAvailability']);
 
 // tutee route
 Route::get('/tutors', [TutorController::class, 'index'])->name('tutors.index');
