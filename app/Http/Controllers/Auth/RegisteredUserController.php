@@ -89,6 +89,9 @@ class RegisteredUserController extends Controller
         // }
         if ($user->isTutor()) {
             return redirect()->to(route('dashboard', [], false));
+        } else {
+            return redirect()->route('dashboard');
         }
+
     }
 }
